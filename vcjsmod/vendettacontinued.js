@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "5b32a95";
+      versionHash = "5cfa319";
     }
   });
 
@@ -4218,7 +4218,7 @@
     alert([
       "Failed to inject Vendetta Continued!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Vendetta Continued: ${"5b32a95"}`,
+      `Vendetta Continued: ${"5cfa319"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });

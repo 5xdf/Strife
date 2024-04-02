@@ -65,10 +65,12 @@ export default function Developer() {
                             }}
                         />
                         <TableSwitchRow
-                            label="Force Update"
-                            subLabel="Always fetches and uses the latest version available at the provided URL."
+                            label="Beta Branch"
+                            subLabel="Always gets the beta version of Strife, use this if you want to have bugs."
                             value={false}
-                            onValueChange={() => showToast("this isnt needed - 5xdf")}
+                            onValueChange={(v: boolean) => {
+                                loaderConfig.customLoadUrl.url = "https://"
+                            }}
                         />
                         <RN.View style={{ paddingVertical: 8, paddingHorizontal: 16 }}>
                             <TextInput
