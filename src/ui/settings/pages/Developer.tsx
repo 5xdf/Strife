@@ -9,10 +9,12 @@ import { Forms, Tabs, ErrorBoundary } from "@ui/components";
 import settings, { loaderConfig } from "@lib/settings";
 import AssetBrowser from "@ui/settings/pages/AssetBrowser";
 import Secret from "@ui/settings/pages/Secret";
+import { times } from "lodash";
 
 const { Stack, TableRow, TableRowIcon, TableSwitchRow, TableRowGroup, TextInput, Slider } = Tabs;
 const { hideActionSheet } = findByProps("openLazy", "hideActionSheet");
 const { showSimpleActionSheet } = findByProps("showSimpleActionSheet");
+var betabranch = false;
 
 export default function Developer() {
     const navigation = NavigationNative.useNavigation();
@@ -51,9 +53,11 @@ export default function Developer() {
                     {window.__vendetta_loader?.features.loaderConfig && <TableRowGroup title="Loader">
                         <TableSwitchRow
                             label="Enabled"
-                            subLabel="Handles the loading of Vendetta Continued. You will need to edit the configuration file to enable the loader again."
-                            value={true}
-                            onValueChange={() => showToast("i dont know what this is - 5xdf")}
+                            subLabel="Handles the loading of Strife. You will need to edit the configuration file to enable the loader again."
+                            value={false}
+                            onValueChange={(v: boolean) => {
+                                showToast("not needed lol",getAssetIDByName("Check"))
+                            }}
                         />
                         <TableSwitchRow
                             label="React DevTools"
@@ -66,10 +70,16 @@ export default function Developer() {
                         />
                         <TableSwitchRow
                             label="Beta Branch"
-                            subLabel="Always gets the beta version of Strife, use this if you want to have bugs."
-                            value={false}
-                            onValueChange={(v: boolean) => {
-                                loaderConfig.customLoadUrl.url = "https://"
+                            subLabel="Gets the code from the Beta Branch instead of the main branch. Will reload discord."
+                            value={betabranch}
+                            onValueChange={(v: boolean) => { 
+                                betabranch! = v;
+                                // showToast(`Beta branch var: ${betabranch} | v: ${v}`,getAssetIDByName("Check"))
+                                loaderConfig.customLoadUrl.url = `https://raw.githubusercontent.com/5xdf/Strife/${v ? "beta" : "main"}/strifemod/strife.js`
+                                showToast(`Reloading discord...`,getAssetIDByName("MoreHorizontalIcon"))
+                                setTimeout(function(){
+                                    BundleUpdaterManager.reload()
+                                },1000)
                             }}
                         />
                         <RN.View style={{ paddingVertical: 8, paddingHorizontal: 16 }}>
@@ -77,6 +87,7 @@ export default function Developer() {
                                 label="Custom Loader URL"
                                 placeholder="http://localhost:4040/bound.js"
                                 size="md"
+                                
                                 defaultValue={loaderConfig.customLoadUrl.url}
                                 onChange={(v: string) => {
                                     loaderConfig.customLoadUrl.url = v;
@@ -91,7 +102,7 @@ export default function Developer() {
                             value={settings.errorBoundaryEnabled ?? true}
                             onValueChange={(v: boolean) => {
                                 settings.errorBoundaryEnabled = v;
-                                showToast(`Crash recovery module has been set to ${v}`,getAssetIDByName("MoreHorizontalIcon"));
+                                showToast(`Crash recovery module has been ${v ? "enabled" : "disabled"}`,getAssetIDByName("MoreHorizontalIcon"));
                             }}
                         />
                         <TableRow
@@ -107,7 +118,7 @@ export default function Developer() {
                                 options: [
                                     // @ts-expect-error 
                                     // Of course, to trigger an error, we need to do something incorrectly. The below will do!
-                                    { label: "Vendetta Continued", onPress: () => navigation.push("VendettaCustomPage", { render: () => <undefined /> }) },
+                                    { label: "Strife", onPress: () => navigation.push("VendettaCustomPage", { render: () => <undefined /> }) },
                                     { label: "Discord", isDestructive: true, onPress: () => navigation.push("VendettaCustomPage", { noErrorBoundary: true }) },
                                 ],
                             })}
