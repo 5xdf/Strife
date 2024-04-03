@@ -17,7 +17,7 @@ import { showToast } from "@ui/toasts";
 import Developer from "@ui/settings/pages/Developer"
 
 export default async () => {
-    const navigation = NavigationNative.useNavigation();
+
     // Load everything in parallel
     const unloads = await Promise.all([
         patchLogHook(),
@@ -49,6 +49,7 @@ export default async () => {
     // We good :)
     logger.log("Strife has been injected into your discord app successfully!");
     showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
+    const navigation = NavigationNative.useNavigation();
     if (settings.startingPage == "Dev") {
         navigation.push("VendettaCustomPage", {
             render: Developer,
