@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "ae01056";
+      versionHash = "da4c45e";
     }
   });
 
@@ -3664,6 +3664,66 @@
     }
   });
 
+  // src/ui/settings/pages/Updater.tsx
+  function Updater() {
+    return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(ReactNative.ScrollView, {
+      style: {
+        flex: 1
+      },
+      contentContainerStyle: {
+        padding: 16,
+        alignItems: "center"
+      }
+    }, /* @__PURE__ */ React.createElement(Stack4, {
+      spacing: 16
+    }, /* @__PURE__ */ React.createElement(TableRowGroup4, null, /* @__PURE__ */ React.createElement(TableRow4, {
+      label: "Check for updates",
+      icon: /* @__PURE__ */ React.createElement(TableRowIcon4, {
+        source: getAssetIDByName("ic_notification_settings")
+      }),
+      onPress: function() {
+        return showSimpleActionSheet4({
+          // label: "There are no updates avaliable"
+          key: "noUpdAvaliable",
+          header: {
+            title: "There are no updates avaliable",
+            icon: /* @__PURE__ */ React.createElement(TableRowIcon4, {
+              style: {
+                marginRight: 8
+              },
+              source: getAssetIDByName("ic_lock")
+            }),
+            onClose: function() {
+              return hideActionSheet4();
+            }
+          },
+          options: [
+            {
+              label: "Okay",
+              onPress: function() {
+                return hideActionSheet4();
+              }
+            }
+          ]
+        });
+      },
+      arrow: true
+    })))));
+  }
+  var Stack4, TableRow4, TableRowIcon4, TableSwitchRow4, TableRowGroup4, showSimpleActionSheet4, hideActionSheet4;
+  var init_Updater = __esm({
+    "src/ui/settings/pages/Updater.tsx"() {
+      "use strict";
+      init_common();
+      init_assets();
+      init_components();
+      init_filters();
+      ({ Stack: Stack4, TableRow: TableRow4, TableRowIcon: TableRowIcon4, TableSwitchRow: TableSwitchRow4, TableRowGroup: TableRowGroup4 } = Tabs);
+      ({ showSimpleActionSheet: showSimpleActionSheet4 } = findByProps("showSimpleActionSheet"));
+      ({ hideActionSheet: hideActionSheet4 } = findByProps("openLazy", "hideActionSheet"));
+    }
+  });
+
   // src/ui/settings/data.tsx
   var styles5, formatKey, keyMap, getScreens, getRenderableScreens, getPanelsScreens, getYouData;
   var init_data = __esm({
@@ -3683,7 +3743,7 @@
       init_General();
       init_Plugins();
       init_Themes();
-      init_Secret();
+      init_Updater();
       init_constants();
       styles5 = stylesheet.createThemedStyleSheet({
         container: {
@@ -3766,7 +3826,7 @@
             key: formatKey("BoundUpdater", youKeys),
             title: "Updater",
             icon: "ic_download_24px",
-            render: General2
+            render: Updater
           },
           {
             key: formatKey("VendettaCustomPage", youKeys),
@@ -4232,7 +4292,7 @@
       showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
   }
-  var Stack4, TableRow4, TableRowIcon4, TableSwitchRow4, TableRowGroup4, TextInput2, Slider2, hideActionSheet4, showSimpleActionSheet4;
+  var Stack5, TableRow5, TableRowIcon5, TableSwitchRow5, TableRowGroup5, TextInput2, Slider2, hideActionSheet5, showSimpleActionSheet5;
   var init_src = __esm({
     "src/index.ts"() {
       "use strict";
@@ -4254,9 +4314,9 @@
       init_toasts();
       init_filters();
       init_components();
-      ({ Stack: Stack4, TableRow: TableRow4, TableRowIcon: TableRowIcon4, TableSwitchRow: TableSwitchRow4, TableRowGroup: TableRowGroup4, TextInput: TextInput2, Slider: Slider2 } = Tabs);
-      ({ hideActionSheet: hideActionSheet4 } = findByProps("openLazy", "hideActionSheet"));
-      ({ showSimpleActionSheet: showSimpleActionSheet4 } = findByProps("showSimpleActionSheet"));
+      ({ Stack: Stack5, TableRow: TableRow5, TableRowIcon: TableRowIcon5, TableSwitchRow: TableSwitchRow5, TableRowGroup: TableRowGroup5, TextInput: TextInput2, Slider: Slider2 } = Tabs);
+      ({ hideActionSheet: hideActionSheet5 } = findByProps("openLazy", "hideActionSheet"));
+      ({ showSimpleActionSheet: showSimpleActionSheet5 } = findByProps("showSimpleActionSheet"));
     }
   });
 
@@ -4278,11 +4338,11 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"ae01056"}`,
+      `Strife: ${"da4c45e"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"ae01056"}
+  window.alert(`Strife: ${"da4c45e"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
