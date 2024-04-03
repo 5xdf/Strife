@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "7e2ff66";
+      versionHash = "41b17a2";
     }
   });
 
@@ -4198,7 +4198,12 @@
     unloads.push(await initPlugins());
     await ReactNative.Image.prefetch("https://bound-mod.github.io/assets/images/fools.png");
     logger_default.log("Strife has been injected into your discord app successfully!");
-    showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
+    if (settings_default.betaBranch == true) {
+      showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
+      window.alert("You are on the BETA branch of Strife! By using this branch, you accept any data leakage, broken features, and any other possible risks. I am not responsible for these risks. You decided to turn on the beta branch switch in settings, so you are having to deal with this. Turn off the beta branch to minimize the risks.");
+    } else {
+      showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
+    }
   }
   var init_src = __esm({
     "src/index.ts"() {
@@ -4240,11 +4245,11 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"7e2ff66"}`,
+      `Strife: ${"41b17a2"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"7e2ff66"}
+  window.alert(`Strife: ${"41b17a2"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
