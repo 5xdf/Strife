@@ -11,6 +11,7 @@ import AssetBrowser from "@ui/settings/pages/AssetBrowser";
 import Secret from "@ui/settings/pages/Secret";
 import { times } from "lodash";
 
+
 const { Stack, TableRow, TableRowIcon, TableSwitchRow, TableRowGroup, TextInput, Slider } = Tabs;
 const { hideActionSheet } = findByProps("openLazy", "hideActionSheet");
 const { showSimpleActionSheet } = findByProps("showSimpleActionSheet");
@@ -77,6 +78,7 @@ export default function Developer() {
                                 // showToast(`Beta branch var: ${betabranch} | v: ${v}`,getAssetIDByName("Check"))
                                 loaderConfig.customLoadUrl.url = `https://raw.githubusercontent.com/5xdf/Strife/${v ? "beta" : "main"}/strifemod/strife.js`
                                 showToast(`Reloading discord...`,getAssetIDByName("MoreHorizontalIcon"))
+                                settings.startingPage = "Dev"
                                 setTimeout(function(){
                                     BundleUpdaterManager.reload()
                                 },1000)
@@ -98,15 +100,17 @@ export default function Developer() {
                             label="Clear loader URL"
                             subLabel="Doing this will reload discord and will return you back to normal."
                             onPress={()=> {
-                                loaderConfig.customLoadUrl.url = "https://cdn.jsdelivr.net/gh/revenge-mod/builds@main/revenge.js"
-                                BundleUpdaterManager.reload()
-                                setTimeout(function(){
-                                    loaderConfig.customLoadUrl.url = ""
-                                    navigation.push("VendettaCustomPage", {
-                                        render: Developer,
-                                    })
-                                },5000)
-                                
+                                showSimpleActionSheet({
+                                    key: "unfinishedAction",
+                                    header: {
+                                        title: "Hey, this is not finished right now.",
+                                        icon: <TableRowIcon style={{ marginRight: 8 }} source={getAssetIDByName("ic_lock")} />,
+                                        onClose: () => hideActionSheet(),
+                                    },
+                                    options: [
+                                        { label: "Okay", onPress: () => hideActionSheet() },
+                                    ],
+                                })
                             }}
                         />
                     </TableRowGroup>}

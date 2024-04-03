@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "b175e39";
+      versionHash = "76180cd";
     }
   });
 
@@ -2847,6 +2847,7 @@
         settings_default.betaBranch = v;
         loaderConfig.customLoadUrl.url = `https://raw.githubusercontent.com/5xdf/Strife/${v ? "beta" : "main"}/strifemod/strife.js`;
         showToast(`Reloading discord...`, getAssetIDByName("MoreHorizontalIcon"));
+        settings_default.startingPage = "Dev";
         setTimeout(function() {
           BundleUpdaterManager.reload();
         }, 1e3);
@@ -2868,14 +2869,29 @@
       label: "Clear loader URL",
       subLabel: "Doing this will reload discord and will return you back to normal.",
       onPress: function() {
-        loaderConfig.customLoadUrl.url = "https://cdn.jsdelivr.net/gh/revenge-mod/builds@main/revenge.js";
-        BundleUpdaterManager.reload();
-        setTimeout(function() {
-          loaderConfig.customLoadUrl.url = "";
-          navigation2.push("VendettaCustomPage", {
-            render: Developer
-          });
-        }, 5e3);
+        showSimpleActionSheet2({
+          key: "unfinishedAction",
+          header: {
+            title: "Hey, this is not finished right now.",
+            icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
+              style: {
+                marginRight: 8
+              },
+              source: getAssetIDByName("ic_lock")
+            }),
+            onClose: function() {
+              return hideActionSheet2();
+            }
+          },
+          options: [
+            {
+              label: "Okay",
+              onPress: function() {
+                return hideActionSheet2();
+              }
+            }
+          ]
+        });
       }
     })), /* @__PURE__ */ React.createElement(TableRowGroup2, {
       title: "Error Boundary"
@@ -4163,6 +4179,7 @@
     default: () => src_default
   });
   async function src_default() {
+    const navigation2 = NavigationNative.useNavigation();
     const unloads = await Promise.all([
       patchLogHook(),
       patchAssets(),
@@ -4183,10 +4200,17 @@
     await ReactNative.Image.prefetch("https://bound-mod.github.io/assets/images/fools.png");
     logger_default.log("Strife has been injected into your discord app successfully!");
     showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
+    if (settings_default.startingPage == "Dev") {
+      navigation2.push("VendettaCustomPage", {
+        render: Developer
+      });
+      settings_default.startingPage = "None";
+    }
   }
   var init_src = __esm({
     "src/index.ts"() {
       "use strict";
+      init_common();
       init_common();
       init_debug();
       init_storage();
@@ -4203,6 +4227,7 @@
       init_settings();
       init_assets();
       init_toasts();
+      init_Developer();
     }
   });
 
@@ -4224,7 +4249,7 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"b175e39"}`,
+      `Strife: ${"76180cd"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });
