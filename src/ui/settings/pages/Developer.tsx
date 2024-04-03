@@ -71,9 +71,9 @@ export default function Developer() {
                         <TableSwitchRow
                             label="Beta Branch"
                             subLabel="Gets the code from the Beta Branch instead of the main branch. Will reload discord."
-                            value={betabranch}
+                            value={settings.betaBranch}
                             onValueChange={(v: boolean) => { 
-                                betabranch! = v;
+                                settings.betaBranch = v;
                                 // showToast(`Beta branch var: ${betabranch} | v: ${v}`,getAssetIDByName("Check"))
                                 loaderConfig.customLoadUrl.url = `https://raw.githubusercontent.com/5xdf/Strife/${v ? "beta" : "main"}/strifemod/strife.js`
                                 showToast(`Reloading discord...`,getAssetIDByName("MoreHorizontalIcon"))

@@ -171,6 +171,7 @@ interface Settings extends StorageObject {
         enabled: boolean;
         currentThemeId?: string;
     };
+    betaBranch: boolean;
 }
 
 interface ApplicationCommand {
