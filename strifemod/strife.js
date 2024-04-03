@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "03d3c76";
+      versionHash = "9100e5b";
     }
   });
 
@@ -4179,7 +4179,6 @@
     default: () => src_default
   });
   async function src_default() {
-    const navigation2 = NavigationNative.useNavigation();
     const unloads = await Promise.all([
       patchLogHook(),
       patchAssets(),
@@ -4200,6 +4199,7 @@
     await ReactNative.Image.prefetch("https://bound-mod.github.io/assets/images/fools.png");
     logger_default.log("Strife has been injected into your discord app successfully!");
     showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
+    const navigation2 = NavigationNative.useNavigation();
     if (settings_default.startingPage == "Dev") {
       navigation2.push("VendettaCustomPage", {
         render: Developer
@@ -4248,7 +4248,7 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"03d3c76"}`,
+      `Strife: ${"9100e5b"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });
