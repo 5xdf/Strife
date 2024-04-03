@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "7bdfe2f";
+      versionHash = "2ee22f5";
     }
   });
 
@@ -2707,7 +2707,6 @@
   // src/ui/settings/pages/AssetBrowser.tsx
   function AssetBrowser() {
     const [search, setSearch] = React.useState("");
-    showToast(`Asset browser has been loaded successfully.`, getAssetIDByName("Check"));
     return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(ReactNative.View, {
       style: {
         flex: 1
@@ -2744,8 +2743,6 @@
       init_assets();
       init_components();
       init_AssetDisplay();
-      init_toasts();
-      init_assets();
       ({ FormDivider } = Forms);
     }
   });
@@ -2845,9 +2842,9 @@
     }), /* @__PURE__ */ React.createElement(TableSwitchRow2, {
       label: "Beta Branch",
       subLabel: "Gets the code from the Beta Branch instead of the main branch. Will reload discord.",
-      value: betabranch,
+      value: settings_default.betaBranch,
       onValueChange: function(v) {
-        betabranch = v;
+        settings_default.betaBranch = v;
         loaderConfig.customLoadUrl.url = `https://raw.githubusercontent.com/5xdf/Strife/${v ? "beta" : "main"}/strifemod/strife.js`;
         showToast(`Reloading discord...`, getAssetIDByName("MoreHorizontalIcon"));
         setTimeout(function() {
@@ -2875,7 +2872,7 @@
       value: settings_default.errorBoundaryEnabled ?? true,
       onValueChange: function(v) {
         settings_default.errorBoundaryEnabled = v;
-        showToast(`Crash recovery module has been set to ${v}`, getAssetIDByName("MoreHorizontalIcon"));
+        showToast(`Crash recovery module has been ${v ? "enabled" : "disabled"}`, getAssetIDByName("MoreHorizontalIcon"));
       }
     }), /* @__PURE__ */ React.createElement(TableRow2, {
       label: "Trigger ErrorBoundary",
@@ -2987,7 +2984,7 @@
       arrow: true
     })))));
   }
-  var Stack2, TableRow2, TableRowIcon2, TableSwitchRow2, TableRowGroup2, TextInput, Slider, hideActionSheet2, showSimpleActionSheet2, betabranch;
+  var Stack2, TableRow2, TableRowIcon2, TableSwitchRow2, TableRowGroup2, TextInput, Slider, hideActionSheet2, showSimpleActionSheet2;
   var init_Developer = __esm({
     "src/ui/settings/pages/Developer.tsx"() {
       "use strict";
@@ -3005,7 +3002,6 @@
       ({ Stack: Stack2, TableRow: TableRow2, TableRowIcon: TableRowIcon2, TableSwitchRow: TableSwitchRow2, TableRowGroup: TableRowGroup2, TextInput, Slider } = Tabs);
       ({ hideActionSheet: hideActionSheet2 } = findByProps("openLazy", "hideActionSheet"));
       ({ showSimpleActionSheet: showSimpleActionSheet2 } = findByProps("showSimpleActionSheet"));
-      betabranch = false;
     }
   });
 
@@ -4173,7 +4169,8 @@
     unloads.push(await initPlugins());
     await ReactNative.Image.prefetch("https://bound-mod.github.io/assets/images/fools.png");
     logger_default.log("Strife has been injected into your discord app successfully!");
-    showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
+    showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
+    window.alert("You are on the BETA branch of Strife! By using this branch, you accept any data leakage, broken features, and any other possible risks. I am not responsible for these risks. You decided to turn on the beta branch switch in settings, so you are having to deal with this. Turn off the beta branch to minimize the risks.");
   }
   var init_src = __esm({
     "src/index.ts"() {
@@ -4215,7 +4212,7 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"7bdfe2f"}`,
+      `Strife: ${"2ee22f5"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });
