@@ -14,7 +14,7 @@ import windowObject from "@lib/windowObject";
 import settings from "@lib/settings";
 import { getAssetIDByName } from "@ui/assets";
 import { showToast } from "@ui/toasts";
-import Developer from "@ui/settings/pages/Developer"
+import devpage from "@ui/settings/pages/Developer"
 
 export default async () => {
 
@@ -52,7 +52,7 @@ export default async () => {
     const navigation = NavigationNative.useNavigation();
     if (settings.startingPage == "Dev") {
         navigation.push("VendettaCustomPage", {
-            render: Developer,
+            render: devpage,
         })
         settings.startingPage = "None"
     }
