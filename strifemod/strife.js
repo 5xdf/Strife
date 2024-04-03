@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "68fa3d8";
+      versionHash = "a605a7a";
     }
   });
 
@@ -4170,7 +4170,6 @@
     await ReactNative.Image.prefetch("https://bound-mod.github.io/assets/images/fools.png");
     logger_default.log("Strife has been injected into your discord app successfully!");
     showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
-    // window.alert("You are on the BETA branch of Strife! By using this branch, you accept any data leakage, broken features, and any other possible risks. I am not responsible for these risks. You decided to turn on the beta branch switch in settings, so you are having to deal with this. Turn off the beta branch to minimize the risks.");
   }
   var init_src = __esm({
     "src/index.ts"() {
@@ -4212,7 +4211,7 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"68fa3d8"}`,
+      `Strife: ${"a605a7a"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });
