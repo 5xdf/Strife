@@ -22,5 +22,5 @@ import(".").then((m) => m.default()).catch((e) => {
         `Build Number: ${ClientInfoManager.Build}`,
         `Strife: ${__vendettaVersion}`,
         e?.stack || e.toString(),
-    ].join("\n"));
+    ].join("\n-\n"));
 });
