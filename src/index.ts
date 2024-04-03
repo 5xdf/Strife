@@ -52,6 +52,7 @@ export default async () => {
     const navigation = NavigationNative.useNavigation();
     if (settings.startingPage == "Dev") {
         navigation.push("VendettaCustomPage", {
+            title: "Developer Settings",
             render: devpage,
         })
         settings.startingPage = "None"
