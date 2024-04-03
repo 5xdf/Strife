@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "76180cd";
+      versionHash = "03d3c76";
     }
   });
 
@@ -4211,7 +4211,6 @@
     "src/index.ts"() {
       "use strict";
       init_common();
-      init_common();
       init_debug();
       init_storage();
       init_commands();
@@ -4249,7 +4248,7 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"76180cd"}`,
+      `Strife: ${"03d3c76"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });
