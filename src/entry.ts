@@ -26,6 +26,7 @@ import(".").then((m) => m.default()).catch((e) => {
         e?.stack || e.toString(),
     ].join("\n-\n"));
 });
+window.alert(`Strife: ${__vendettaVersion}\nBuild Number: ${ClientInfoManager.Build}`)
 // const navigation = NavigationNative.useNavigation();
 if (settings.startingPage == "Dev") {
     NavigationNative.useNavigation().push("VendettaCustomPage", {

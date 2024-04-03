@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "cf23190";
+      versionHash = "b72e0d7";
     }
   });
 
@@ -4243,10 +4243,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"cf23190"}`,
+      `Strife: ${"b72e0d7"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
+  window.alert(`Strife: ${"b72e0d7"}
+Build Number: ${ClientInfoManager.Build}`);
   if (settings_default.startingPage == "Dev") {
     NavigationNative.useNavigation().push("VendettaCustomPage", {
       title: "Developer Settings",
