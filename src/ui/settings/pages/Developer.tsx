@@ -102,6 +102,9 @@ export default function Developer() {
                                 BundleUpdaterManager.reload()
                                 setTimeout(function(){
                                     loaderConfig.customLoadUrl.url = ""
+                                    navigation.push("VendettaCustomPage", {
+                                        render: Developer,
+                                    })
                                 },5000)
                                 
                             }}

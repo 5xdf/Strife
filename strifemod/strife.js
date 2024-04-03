@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "5e29e7e";
+      versionHash = "b175e39";
     }
   });
 
@@ -2872,6 +2872,9 @@
         BundleUpdaterManager.reload();
         setTimeout(function() {
           loaderConfig.customLoadUrl.url = "";
+          navigation2.push("VendettaCustomPage", {
+            render: Developer
+          });
         }, 5e3);
       }
     })), /* @__PURE__ */ React.createElement(TableRowGroup2, {
@@ -4221,7 +4224,7 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"5e29e7e"}`,
+      `Strife: ${"b175e39"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });
