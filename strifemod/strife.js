@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "41b17a2";
+      versionHash = "475d695";
     }
   });
 
@@ -4200,11 +4200,11 @@
     logger_default.log("Strife has been injected into your discord app successfully!");
     if (settings_default.betaBranch == true) {
       showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
-      window.alert("You are on the BETA branch of Strife! By using this branch, you accept any data leakage, broken features, and any other possible risks. I am not responsible for these risks. You decided to turn on the beta branch switch in settings, so you are having to deal with this. Turn off the beta branch to minimize the risks.");
     } else {
       showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
   }
+  var Stack4, TableRow4, TableRowIcon4, TableSwitchRow4, TableRowGroup4, TextInput2, Slider2, hideActionSheet4, showSimpleActionSheet4;
   var init_src = __esm({
     "src/index.ts"() {
       "use strict";
@@ -4224,6 +4224,11 @@
       init_settings();
       init_assets();
       init_toasts();
+      init_filters();
+      init_components();
+      ({ Stack: Stack4, TableRow: TableRow4, TableRowIcon: TableRowIcon4, TableSwitchRow: TableSwitchRow4, TableRowGroup: TableRowGroup4, TextInput: TextInput2, Slider: Slider2 } = Tabs);
+      ({ hideActionSheet: hideActionSheet4 } = findByProps("openLazy", "hideActionSheet"));
+      ({ showSimpleActionSheet: showSimpleActionSheet4 } = findByProps("showSimpleActionSheet"));
     }
   });
 
@@ -4245,11 +4250,11 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"41b17a2"}`,
+      `Strife: ${"475d695"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"41b17a2"}
+  window.alert(`Strife: ${"475d695"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
