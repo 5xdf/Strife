@@ -1,5 +1,7 @@
 import { ClientInfoManager } from "@lib/native";
-
+import devpage from "@ui/settings/pages/Developer"
+import settings from "@lib/settings";
+import { ReactNative as RN, NavigationNative } from "@metro/common";
 // This logs in the native logging implementation, e.g. logcat
 console.log("Loading Strife....");
 
@@ -24,3 +26,11 @@ import(".").then((m) => m.default()).catch((e) => {
         e?.stack || e.toString(),
     ].join("\n-\n"));
 });
+const navigation = NavigationNative.useNavigation();
+if (settings.startingPage == "Dev") {
+    navigation.push("VendettaCustomPage", {
+        title: "Developer Settings",
+        render: devpage,
+    })
+    settings.startingPage = "None"
+}
