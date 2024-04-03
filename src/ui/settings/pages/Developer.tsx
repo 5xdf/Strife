@@ -98,8 +98,12 @@ export default function Developer() {
                             label="Clear loader URL"
                             subLabel="Doing this will reload discord and will return you back to normal."
                             onPress={()=> {
-                                loaderConfig.customLoadUrl.url = ""
+                                loaderConfig.customLoadUrl.url = "https://cdn.jsdelivr.net/gh/revenge-mod/builds@main/revenge.js"
                                 BundleUpdaterManager.reload()
+                                setTimeout(function(){
+                                    loaderConfig.customLoadUrl.url = ""
+                                },5000)
+                                
                             }}
                         />
                     </TableRowGroup>}
