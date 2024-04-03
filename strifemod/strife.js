@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "475d695";
+      versionHash = "ae01056";
     }
   });
 
@@ -2889,6 +2889,34 @@
               onPress: function() {
                 return hideActionSheet2();
               }
+            },
+            {
+              label: "can i do it anyways?",
+              onPress: function() {
+                return showSimpleActionSheet2({
+                  key: "noYouCannot",
+                  header: {
+                    title: "No, you can't.",
+                    icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
+                      style: {
+                        marginRight: 8
+                      },
+                      source: getAssetIDByName("ic_lock")
+                    }),
+                    onClose: function() {
+                      return hideActionSheet2();
+                    }
+                  },
+                  options: [
+                    {
+                      label: "Dang it.",
+                      onPress: function() {
+                        return hideActionSheet2();
+                      }
+                    }
+                  ]
+                });
+              }
             }
           ]
         });
@@ -4250,11 +4278,11 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"475d695"}`,
+      `Strife: ${"ae01056"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"475d695"}
+  window.alert(`Strife: ${"ae01056"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued

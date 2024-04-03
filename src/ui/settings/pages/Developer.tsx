@@ -109,6 +109,17 @@ export default function Developer() {
                                     },
                                     options: [
                                         { label: "Okay", onPress: () => hideActionSheet() },
+                                        { label: "can i do it anyways?", onPress: () => showSimpleActionSheet({
+                                            key: "noYouCannot",
+                                            header: {
+                                                title: "No, you can't.",
+                                                icon: <TableRowIcon style={{ marginRight: 8 }} source={getAssetIDByName("ic_lock")} />,
+                                                onClose: () => hideActionSheet(),
+                                            },
+                                            options: [
+                                                { label: "Dang it.", onPress: () => hideActionSheet()}
+                                            ]
+                                        })}
                                     ],
                                 })
                             }}
