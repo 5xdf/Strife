@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "d5eb9d2";
+      versionHash = "056c67c";
     }
   });
 
@@ -2001,7 +2001,7 @@
 
   // src/ui/settings/pages/Developer.tsx
   function Developer() {
-    const navigation3 = NavigationNative.useNavigation();
+    const navigation2 = NavigationNative.useNavigation();
     useProxy(settings_default);
     useProxy(loaderConfig);
     return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(ReactNative.ScrollView, {
@@ -2146,7 +2146,7 @@
             {
               label: "Strife",
               onPress: function() {
-                return navigation3.push("VendettaCustomPage", {
+                return navigation2.push("VendettaCustomPage", {
                   render: function() {
                     return /* @__PURE__ */ React.createElement("undefined", null);
                   }
@@ -2157,7 +2157,7 @@
               label: "Discord",
               isDestructive: true,
               onPress: function() {
-                return navigation3.push("VendettaCustomPage", {
+                return navigation2.push("VendettaCustomPage", {
                   noErrorBoundary: true
                 });
               }
@@ -2193,7 +2193,7 @@
         source: getAssetIDByName("debug")
       }),
       onPress: function() {
-        return navigation3.push("VendettaCustomPage", {
+        return navigation2.push("VendettaCustomPage", {
           render: General2
         });
       },
@@ -2224,7 +2224,7 @@
         source: getAssetIDByName("ImageTextIcon")
       }),
       onPress: function() {
-        return navigation3.push("VendettaCustomPage", {
+        return navigation2.push("VendettaCustomPage", {
           title: "Asset Browser",
           render: AssetBrowser
         });
@@ -3036,7 +3036,7 @@
 
   // src/ui/settings/pages/General.tsx
   function General3() {
-    const navigation3 = NavigationNative.useNavigation();
+    const navigation2 = NavigationNative.useNavigation();
     useProxy(settings_default);
     useProxy(plugins);
     useProxy(themes);
@@ -3067,7 +3067,7 @@
         source: getAssetIDByName("ic_notification_settings")
       }),
       onPress: function() {
-        return navigation3.push("VendettaCustomPage", {
+        return navigation2.push("VendettaCustomPage", {
           title: "Unfinished Page",
           render: General2
         });
@@ -3079,7 +3079,7 @@
         source: getAssetIDByName("ic_progress_wrench_24px")
       }),
       onPress: function() {
-        return navigation3.push("VendettaCustomPage", {
+        return navigation2.push("VendettaCustomPage", {
           title: "Development Settings",
           render: Developer
         });
@@ -3332,7 +3332,7 @@
   function PluginCard(param) {
     let { item: plugin, index } = param;
     const settings = getSettings(plugin.id);
-    const navigation3 = NavigationNative.useNavigation();
+    const navigation2 = NavigationNative.useNavigation();
     const [removed, setRemoved] = React.useState(false);
     if (removed)
       return null;
@@ -3439,7 +3439,7 @@
           {
             icon: "settings",
             onPress: function() {
-              return navigation3.push("VendettaCustomPage", {
+              return navigation2.push("VendettaCustomPage", {
                 title: plugin.manifest.name,
                 render: settings
               });
@@ -3748,9 +3748,9 @@
             },
             render: function(param) {
               let { render: PageView, noErrorBoundary, ...options } = param;
-              const navigation3 = NavigationNative.useNavigation();
-              navigation3.addListener("focus", function() {
-                return navigation3.setOptions(without(options, "render", "noErrorBoundary"));
+              const navigation2 = NavigationNative.useNavigation();
+              navigation2.addListener("focus", function() {
+                return navigation2.setOptions(without(options, "render", "noErrorBoundary"));
               });
               return noErrorBoundary ? /* @__PURE__ */ React.createElement(PageView, null) : /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(PageView, null));
             }
@@ -3789,9 +3789,9 @@
           relationships: keyMap(screens, null),
           rendererConfigs: keyMap(screens, function(s) {
             const WrappedComponent = React.memo(function(param) {
-              let { navigation: navigation3, route } = param;
-              navigation3.addListener("focus", function() {
-                return navigation3.setOptions(s.options);
+              let { navigation: navigation2, route } = param;
+              navigation2.addListener("focus", function() {
+                return navigation2.setOptions(s.options);
               });
               return /* @__PURE__ */ React.createElement(ReactNative.View, {
                 style: styles5.container
@@ -3820,7 +3820,7 @@
 
   // src/ui/settings/components/SettingsSection.tsx
   function SettingsSection() {
-    const navigation3 = NavigationNative.useNavigation();
+    const navigation2 = NavigationNative.useNavigation();
     useProxy(settings_default);
     const screens = getRenderableScreens();
     return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(FormSection, {
@@ -3834,7 +3834,7 @@
         }),
         trailing: FormRow4.Arrow,
         onPress: function() {
-          return navigation3.push(s.key);
+          return navigation2.push(s.key);
         }
       }), i !== screens.length - 1 && /* @__PURE__ */ React.createElement(FormDivider2, null));
     })));
@@ -4243,13 +4243,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"d5eb9d2"}`,
+      `Strife: ${"056c67c"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  var navigation2 = NavigationNative.useNavigation();
   if (settings_default.startingPage == "Dev") {
-    navigation2.push("VendettaCustomPage", {
+    NavigationNative.useNavigation().push("VendettaCustomPage", {
       title: "Developer Settings",
       render: Developer
     });

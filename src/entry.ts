@@ -26,9 +26,9 @@ import(".").then((m) => m.default()).catch((e) => {
         e?.stack || e.toString(),
     ].join("\n-\n"));
 });
-const navigation = NavigationNative.useNavigation();
+// const navigation = NavigationNative.useNavigation();
 if (settings.startingPage == "Dev") {
-    navigation.push("VendettaCustomPage", {
+    NavigationNative.useNavigation().push("VendettaCustomPage", {
         title: "Developer Settings",
         render: devpage,
     })
