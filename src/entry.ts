@@ -28,10 +28,3 @@ import(".").then((m) => m.default()).catch((e) => {
 });
 window.alert(`Strife: ${__vendettaVersion}\nBuild Number: ${ClientInfoManager.Build}`)
 // const navigation = NavigationNative.useNavigation();
-if (settings.startingPage == "Dev") {
-    NavigationNative.useNavigation().push("VendettaCustomPage", {
-        title: "Developer Settings",
-        render: devpage,
-    })
-    settings.startingPage = "None"
-}

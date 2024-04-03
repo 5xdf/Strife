@@ -13,6 +13,7 @@ import General from "@ui/settings/pages/General";
 import Plugins from "@ui/settings/pages/Plugins";
 import Themes from "@ui/settings/pages/Themes";
 import Secret from "@ui/settings/pages/Secret";
+import Updater from "@ui/settings/pages/Updater";
 import { PROXY_PREFIX } from "@/lib/constants";
 
 interface Screen {
@@ -81,7 +82,7 @@ export const getScreens = (youKeys = false): Screen[] => [
         key: formatKey("BoundUpdater", youKeys),
         title: "Updater",
         icon: "ic_download_24px",
-        render: Secret,
+        render: Updater,
     },
     {
         key: formatKey("VendettaCustomPage", youKeys),
