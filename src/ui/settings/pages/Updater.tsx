@@ -26,18 +26,33 @@ export default function Updater() {
                         <TableRow
                             label="Check for updates"
                             icon={<TableRowIcon source={getAssetIDByName("ic_notification_settings")} />}
-                            onPress={() => showSimpleActionSheet({
+                            onPress={() => { showSimpleActionSheet({
                                 // label: "There are no updates avaliable"
-                                key: "noUpdAvaliable",
+                                key: "checkUpd",
                                 header: {
-                                    title: "There are no updates avaliable",
+                                    title: "Checking for updates...",
                                     icon: <TableRowIcon style={{ marginRight: 8 }} source={getAssetIDByName("ic_lock")} />,
                                     onClose: () => hideActionSheet(),
                                 },
                                 options: [
-                                    { label: "Okay", onPress: () => hideActionSheet()}
+                                    
                                 ]
-                            })}
+                            })
+                            setTimeout(function(){
+                                showSimpleActionSheet({
+                                    // label: "There are no updates avaliable"
+                                    key: "noUpdAvaliable",
+                                    header: {
+                                        title: "There are no updates avaliable",
+                                        icon: <TableRowIcon style={{ marginRight: 8 }} source={getAssetIDByName("ic_lock")} />,
+                                        onClose: () => hideActionSheet(),
+                                    },
+                                    options: [
+                                        { label: "Okay", onPress: () => hideActionSheet()}
+                                    ]
+                                })
+                            },1000)
+                        }}
                             arrow
                         />
                     </TableRowGroup>

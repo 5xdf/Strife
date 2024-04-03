@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "da4c45e";
+      versionHash = "7b26580";
     }
   });
 
@@ -3682,11 +3682,11 @@
         source: getAssetIDByName("ic_notification_settings")
       }),
       onPress: function() {
-        return showSimpleActionSheet4({
+        showSimpleActionSheet4({
           // label: "There are no updates avaliable"
-          key: "noUpdAvaliable",
+          key: "checkUpd",
           header: {
-            title: "There are no updates avaliable",
+            title: "Checking for updates...",
             icon: /* @__PURE__ */ React.createElement(TableRowIcon4, {
               style: {
                 marginRight: 8
@@ -3697,15 +3697,34 @@
               return hideActionSheet4();
             }
           },
-          options: [
-            {
-              label: "Okay",
-              onPress: function() {
+          options: []
+        });
+        setTimeout(function() {
+          showSimpleActionSheet4({
+            // label: "There are no updates avaliable"
+            key: "noUpdAvaliable",
+            header: {
+              title: "There are no updates avaliable",
+              icon: /* @__PURE__ */ React.createElement(TableRowIcon4, {
+                style: {
+                  marginRight: 8
+                },
+                source: getAssetIDByName("ic_lock")
+              }),
+              onClose: function() {
                 return hideActionSheet4();
               }
-            }
-          ]
-        });
+            },
+            options: [
+              {
+                label: "Okay",
+                onPress: function() {
+                  return hideActionSheet4();
+                }
+              }
+            ]
+          });
+        }, 1e3);
       },
       arrow: true
     })))));
@@ -4338,11 +4357,11 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"da4c45e"}`,
+      `Strife: ${"7b26580"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"da4c45e"}
+  window.alert(`Strife: ${"7b26580"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
