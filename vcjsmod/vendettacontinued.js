@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "5cfa319";
+      versionHash = "661f2ac";
     }
   });
 
@@ -1671,7 +1671,7 @@
   __export(constants_exports, {
     DISCORD_SERVER: () => DISCORD_SERVER,
     DISCORD_SERVER_ID: () => DISCORD_SERVER_ID,
-    DISCORD_SERVER_REVENGE: () => DISCORD_SERVER_REVENGE2,
+    DISCORD_SERVER_REVENGE: () => DISCORD_SERVER_REVENGE,
     DISCORD_SERVER_VENDETTA: () => DISCORD_SERVER_VENDETTA2,
     GITHUB: () => GITHUB,
     HTTP_REGEX: () => HTTP_REGEX,
@@ -1680,7 +1680,7 @@
     PROXY_PREFIX: () => PROXY_PREFIX,
     THEMES_CHANNEL_ID: () => THEMES_CHANNEL_ID
   });
-  var DISCORD_SERVER, DISCORD_SERVER_ID, PLUGINS_CHANNEL_ID, THEMES_CHANNEL_ID, GITHUB, PROXY_PREFIX, DISCORD_SERVER_VENDETTA2, DISCORD_SERVER_REVENGE2, HTTP_REGEX, HTTP_REGEX_MULTI;
+  var DISCORD_SERVER, DISCORD_SERVER_ID, PLUGINS_CHANNEL_ID, THEMES_CHANNEL_ID, GITHUB, PROXY_PREFIX, DISCORD_SERVER_VENDETTA2, DISCORD_SERVER_REVENGE, HTTP_REGEX, HTTP_REGEX_MULTI;
   var init_constants = __esm({
     "src/lib/constants.ts"() {
       "use strict";
@@ -1691,7 +1691,7 @@
       GITHUB = "https://github.com/5xdf/Vendetta-Continued";
       PROXY_PREFIX = "https://vd-plugins.github.io/proxy";
       DISCORD_SERVER_VENDETTA2 = "https://discord.gg/n9QQ4XhhJP";
-      DISCORD_SERVER_REVENGE2 = "https://discord.gg/n9QQ4XhhJP";
+      DISCORD_SERVER_REVENGE = "https://discord.gg/n9QQ4XhhJP";
       HTTP_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
       HTTP_REGEX_MULTI = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
     }
@@ -2843,11 +2843,11 @@
           connectToRDT();
       }
     }), /* @__PURE__ */ React.createElement(TableSwitchRow2, {
-      label: "Force Update",
-      subLabel: "Always fetches and uses the latest version available at the provided URL.",
+      label: "Beta Branch",
+      subLabel: "Always gets the beta version of Strife, use this if you want to have bugs.",
       value: false,
-      onValueChange: function() {
-        return showToast("this isnt needed - 5xdf");
+      onValueChange: function(v) {
+        loaderConfig.customLoadUrl.url = "https://";
       }
     }), /* @__PURE__ */ React.createElement(ReactNative.View, {
       style: {
@@ -3090,15 +3090,6 @@
       }),
       onPress: function() {
         return url.openDeeplink(DISCORD_SERVER_VENDETTA);
-      },
-      arrow: true
-    }), /* @__PURE__ */ React.createElement(TableRow3, {
-      label: "Discord Server (Revenge (Actual Vendetta Continuation))",
-      icon: /* @__PURE__ */ React.createElement(TableRowIcon3, {
-        source: getAssetIDByName("Discord")
-      }),
-      onPress: function() {
-        return url.openDeeplink(DISCORD_SERVER_REVENGE);
       },
       arrow: true
     }), /* @__PURE__ */ React.createElement(TableRow3, {
@@ -4218,7 +4209,7 @@
     alert([
       "Failed to inject Vendetta Continued!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Vendetta Continued: ${"5cfa319"}`,
+      `Vendetta Continued: ${"661f2ac"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });
