@@ -94,6 +94,14 @@ export default function Developer() {
                                 }}
                             />
                         </RN.View>
+                        <TableRow
+                            label="Clear loader URL"
+                            subLabel="Doing this will reload discord and will return you back to normal."
+                            onPress={()=> {
+                                loaderConfig.customLoadUrl.url = ""
+                                BundleUpdaterManager.reload()
+                            }}
+                        />
                     </TableRowGroup>}
                     <TableRowGroup title="Error Boundary">
                         <TableSwitchRow

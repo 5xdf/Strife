@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "a605a7a";
+      versionHash = "18875d3";
     }
   });
 
@@ -2864,7 +2864,14 @@
       onChange: function(v) {
         loaderConfig.customLoadUrl.url = v;
       }
-    }))), /* @__PURE__ */ React.createElement(TableRowGroup2, {
+    })), /* @__PURE__ */ React.createElement(TableRow2, {
+      label: "Clear loader URL",
+      subLabel: "Doing this will reload discord and will return you back to normal.",
+      onPress: function() {
+        loaderConfig.customLoadUrl.url = "";
+        BundleUpdaterManager.reload();
+      }
+    })), /* @__PURE__ */ React.createElement(TableRowGroup2, {
       title: "Error Boundary"
     }, /* @__PURE__ */ React.createElement(TableSwitchRow2, {
       label: "Error Boundary",
@@ -4211,7 +4218,7 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"a605a7a"}`,
+      `Strife: ${"18875d3"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });
