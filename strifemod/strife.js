@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "0378697";
+      versionHash = "7e2ff66";
     }
   });
 
@@ -4199,13 +4199,6 @@
     await ReactNative.Image.prefetch("https://bound-mod.github.io/assets/images/fools.png");
     logger_default.log("Strife has been injected into your discord app successfully!");
     showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
-    if (settings_default.startingPage == "Dev") {
-      NavigationNative.useNavigation().push("VendettaCustomPage", {
-        title: "Developer Settings",
-        render: Developer
-      });
-      settings_default.startingPage = "None";
-    }
   }
   var init_src = __esm({
     "src/index.ts"() {
@@ -4226,7 +4219,6 @@
       init_settings();
       init_assets();
       init_toasts();
-      init_Developer();
     }
   });
 
@@ -4248,11 +4240,11 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"0378697"}`,
+      `Strife: ${"7e2ff66"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"0378697"}
+  window.alert(`Strife: ${"7e2ff66"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
