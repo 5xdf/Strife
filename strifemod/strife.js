@@ -770,7 +770,7 @@
       "use strict";
       init_filters();
       logModule = findByProps("setLogFn").default;
-      logger = new logModule("Vendetta Continued");
+      logger = new logModule("Strife");
       logger_default = logger;
     }
   });
@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "661f2ac";
+      versionHash = "7bdfe2f";
     }
   });
 
@@ -2828,10 +2828,10 @@
       title: "Loader"
     }, /* @__PURE__ */ React.createElement(TableSwitchRow2, {
       label: "Enabled",
-      subLabel: "Handles the loading of Vendetta Continued. You will need to edit the configuration file to enable the loader again.",
-      value: true,
-      onValueChange: function() {
-        return showToast("i dont know what this is - 5xdf");
+      subLabel: "Handles the loading of Strife. You will need to edit the configuration file to enable the loader again.",
+      value: false,
+      onValueChange: function(v) {
+        showToast("not needed lol", getAssetIDByName("Check"));
       }
     }), /* @__PURE__ */ React.createElement(TableSwitchRow2, {
       label: "React DevTools",
@@ -2844,10 +2844,15 @@
       }
     }), /* @__PURE__ */ React.createElement(TableSwitchRow2, {
       label: "Beta Branch",
-      subLabel: "Always gets the beta version of Strife, use this if you want to have bugs.",
-      value: false,
+      subLabel: "Gets the code from the Beta Branch instead of the main branch. Will reload discord.",
+      value: betabranch,
       onValueChange: function(v) {
-        loaderConfig.customLoadUrl.url = "https://";
+        betabranch = v;
+        loaderConfig.customLoadUrl.url = `https://raw.githubusercontent.com/5xdf/Strife/${v ? "beta" : "main"}/strifemod/strife.js`;
+        showToast(`Reloading discord...`, getAssetIDByName("MoreHorizontalIcon"));
+        setTimeout(function() {
+          BundleUpdaterManager.reload();
+        }, 1e3);
       }
     }), /* @__PURE__ */ React.createElement(ReactNative.View, {
       style: {
@@ -2894,7 +2899,7 @@
             // @ts-expect-error 
             // Of course, to trigger an error, we need to do something incorrectly. The below will do!
             {
-              label: "Vendetta Continued",
+              label: "Strife",
               onPress: function() {
                 return navigation2.push("VendettaCustomPage", {
                   render: function() {
@@ -2982,7 +2987,7 @@
       arrow: true
     })))));
   }
-  var Stack2, TableRow2, TableRowIcon2, TableSwitchRow2, TableRowGroup2, TextInput, Slider, hideActionSheet2, showSimpleActionSheet2;
+  var Stack2, TableRow2, TableRowIcon2, TableSwitchRow2, TableRowGroup2, TextInput, Slider, hideActionSheet2, showSimpleActionSheet2, betabranch;
   var init_Developer = __esm({
     "src/ui/settings/pages/Developer.tsx"() {
       "use strict";
@@ -3000,6 +3005,7 @@
       ({ Stack: Stack2, TableRow: TableRow2, TableRowIcon: TableRowIcon2, TableSwitchRow: TableSwitchRow2, TableRowGroup: TableRowGroup2, TextInput, Slider } = Tabs);
       ({ hideActionSheet: hideActionSheet2 } = findByProps("openLazy", "hideActionSheet"));
       ({ showSimpleActionSheet: showSimpleActionSheet2 } = findByProps("showSimpleActionSheet"));
+      betabranch = false;
     }
   });
 
@@ -3746,8 +3752,8 @@
         return {
           getLayout: function() {
             return {
-              title: "Vendetta Continued",
-              label: "Vendetta Continued",
+              title: "Strife",
+              label: "Strife",
               // We can't use our keyMap function here since `settings` is an array not an object
               settings: getRenderableScreens(true).map(function(s) {
                 return s.key;
@@ -3793,8 +3799,8 @@
     useProxy(settings_default);
     const screens = getRenderableScreens();
     return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(FormSection, {
-      key: "Vendetta Continued",
-      title: `Vendetta Continued${settings_default.safeMode?.enabled ? " (Recovery Mode)" : ""}`
+      key: "Strife",
+      title: `Strife${settings_default.safeMode?.enabled ? " (Recovery Mode)" : ""}`
     }, screens.map(function(s, i) {
       return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(FormRow4, {
         label: s.title,
@@ -4166,8 +4172,9 @@
       connectToRDT();
     unloads.push(await initPlugins());
     await ReactNative.Image.prefetch("https://bound-mod.github.io/assets/images/fools.png");
-    logger_default.log("Vendetta Continued has been injected into your discord app successfully!");
-    showToast("Vendetta Continued Loaded", getAssetIDByName("toast_copy_link"));
+    logger_default.log("Strife has been injected into your discord app successfully!");
+    showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
+    window.alert("You are on the BETA branch of Strife! By using this branch, you accept any data leakage, broken features, and any other possible risks. I am not responsible for these risks. You decided to turn on the beta branch switch in settings, so you are having to deal with this. Turn off the beta branch to minimize the risks.");
   }
   var init_src = __esm({
     "src/index.ts"() {
@@ -4193,7 +4200,7 @@
 
   // src/entry.ts
   init_native();
-  console.log("Loading Vendetta Continued....");
+  console.log("Loading Strife....");
   Object.freeze = Object;
   Object.seal = Object;
   var origToString = Function.prototype.toString;
@@ -4207,9 +4214,9 @@
   }).catch(function(e) {
     console.log(e?.stack ?? e.toString());
     alert([
-      "Failed to inject Vendetta Continued!\n",
+      "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Vendetta Continued: ${"661f2ac"}`,
+      `Strife: ${"7bdfe2f"}`,
       e?.stack || e.toString()
     ].join("\n"));
   });

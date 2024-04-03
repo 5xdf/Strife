@@ -45,6 +45,7 @@ export default async () => {
     await RN.Image.prefetch("https://bound-mod.github.io/assets/images/fools.png");
 
     // We good :)
-    logger.log("Vendetta Continued has been injected into your discord app successfully!");
-    showToast("Vendetta Continued Loaded", getAssetIDByName("toast_copy_link"));
+    logger.log("Strife has been injected into your discord app successfully!");
+    showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
+    window.alert("You are on the BETA branch of Strife! By using this branch, you accept any data leakage, broken features, and any other possible risks. I am not responsible for these risks. You decided to turn on the beta branch switch in settings, so you are having to deal with this. Turn off the beta branch to minimize the risks.")
 }
