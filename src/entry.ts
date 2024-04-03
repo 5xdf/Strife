@@ -27,10 +27,10 @@ import(".").then((m) => m.default()).catch((e) => {
     ].join("\n-\n"));
 });
 // const navigation = NavigationNative.useNavigation();
-if (settings.startingPage == "Dev") {
-    NavigationNative.useNavigation().push("VendettaCustomPage", {
-        title: "Developer Settings",
-        render: devpage,
-    })
-    settings.startingPage = "None"
-}
+// if (settings.startingPage == "Dev") {
+//     NavigationNative.useNavigation().push("VendettaCustomPage", {
+//         title: "Developer Settings",
+//         render: devpage,
+//     })
+//     settings.startingPage = "None"
+// }
