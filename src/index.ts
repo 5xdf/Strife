@@ -1,4 +1,4 @@
-import { ReactNative as RN } from "@metro/common";
+import { ReactNative as RN, NavigationNative } from "@metro/common";
 import { connectToDebugger, connectToRDT, patchLogHook } from "@lib/debug";
 import { awaitSyncWrapper } from "@lib/storage";
 import { patchCommands } from "@lib/commands";
@@ -14,8 +14,10 @@ import windowObject from "@lib/windowObject";
 import settings from "@lib/settings";
 import { getAssetIDByName } from "@ui/assets";
 import { showToast } from "@ui/toasts";
+import devpage from "@ui/settings/pages/Developer"
 
 export default async () => {
+
     // Load everything in parallel
     const unloads = await Promise.all([
         patchLogHook(),

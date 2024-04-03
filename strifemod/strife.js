@@ -1386,314 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "68fa3d8";
-    }
-  });
-
-  // src/def.d.ts
-  var ButtonColors, ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType;
-  var init_def_d = __esm({
-    "src/def.d.ts"() {
-      (function(ButtonColors2) {
-        ButtonColors2["BRAND"] = "brand";
-        ButtonColors2["RED"] = "red";
-        ButtonColors2["GREEN"] = "green";
-        ButtonColors2["PRIMARY"] = "primary";
-        ButtonColors2["TRANSPARENT"] = "transparent";
-        ButtonColors2["GREY"] = "grey";
-        ButtonColors2["LIGHTGREY"] = "lightgrey";
-        ButtonColors2["WHITE"] = "white";
-        ButtonColors2["LINK"] = "link";
-      })(ButtonColors || (ButtonColors = {}));
-      (function(ApplicationCommandInputType2) {
-        ApplicationCommandInputType2[ApplicationCommandInputType2["BUILT_IN"] = 0] = "BUILT_IN";
-        ApplicationCommandInputType2[ApplicationCommandInputType2["BUILT_IN_TEXT"] = 1] = "BUILT_IN_TEXT";
-        ApplicationCommandInputType2[ApplicationCommandInputType2["BUILT_IN_INTEGRATION"] = 2] = "BUILT_IN_INTEGRATION";
-        ApplicationCommandInputType2[ApplicationCommandInputType2["BOT"] = 3] = "BOT";
-        ApplicationCommandInputType2[ApplicationCommandInputType2["PLACEHOLDER"] = 4] = "PLACEHOLDER";
-      })(ApplicationCommandInputType || (ApplicationCommandInputType = {}));
-      (function(ApplicationCommandOptionType2) {
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["SUB_COMMAND"] = 1] = "SUB_COMMAND";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["SUB_COMMAND_GROUP"] = 2] = "SUB_COMMAND_GROUP";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["STRING"] = 3] = "STRING";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["INTEGER"] = 4] = "INTEGER";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["BOOLEAN"] = 5] = "BOOLEAN";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["USER"] = 6] = "USER";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["CHANNEL"] = 7] = "CHANNEL";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["ROLE"] = 8] = "ROLE";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["MENTIONABLE"] = 9] = "MENTIONABLE";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["NUMBER"] = 10] = "NUMBER";
-        ApplicationCommandOptionType2[ApplicationCommandOptionType2["ATTACHMENT"] = 11] = "ATTACHMENT";
-      })(ApplicationCommandOptionType || (ApplicationCommandOptionType = {}));
-      (function(ApplicationCommandType2) {
-        ApplicationCommandType2[ApplicationCommandType2["CHAT"] = 1] = "CHAT";
-        ApplicationCommandType2[ApplicationCommandType2["USER"] = 2] = "USER";
-        ApplicationCommandType2[ApplicationCommandType2["MESSAGE"] = 3] = "MESSAGE";
-      })(ApplicationCommandType || (ApplicationCommandType = {}));
-    }
-  });
-
-  // src/lib/commands.ts
-  var commands_exports = {};
-  __export(commands_exports, {
-    patchCommands: () => patchCommands,
-    registerCommand: () => registerCommand
-  });
-  function patchCommands() {
-    const unpatch2 = after("getBuiltInCommands", commands, function(param, res) {
-      let [type] = param;
-      if (type === ApplicationCommandType.CHAT)
-        return res.concat(commands2);
-    });
-    return function() {
-      commands2 = [];
-      unpatch2();
-    };
-  }
-  function registerCommand(command) {
-    const builtInCommands = commands.getBuiltInCommands(ApplicationCommandType.CHAT, true, false);
-    builtInCommands.sort(function(a, b) {
-      return parseInt(b.id) - parseInt(a.id);
-    });
-    const lastCommand = builtInCommands[builtInCommands.length - 1];
-    command.id = (parseInt(lastCommand.id, 10) - 1).toString();
-    commands2.push(command);
-    return function() {
-      return commands2 = commands2.filter(function(param) {
-        let { id } = param;
-        return id !== command.id;
-      });
-    };
-  }
-  var commands2;
-  var init_commands = __esm({
-    "src/lib/commands.ts"() {
-      "use strict";
-      init_def_d();
-      init_common();
-      init_patcher();
-      commands2 = [];
-    }
-  });
-
-  // src/lib/polyfills.ts
-  var allSettledFulfill, allSettledReject, mapAllSettled, allSettled;
-  var init_polyfills = __esm({
-    "src/lib/polyfills.ts"() {
-      "use strict";
-      allSettledFulfill = function(value) {
-        return {
-          status: "fulfilled",
-          value
-        };
-      };
-      allSettledReject = function(reason) {
-        return {
-          status: "rejected",
-          reason
-        };
-      };
-      mapAllSettled = function(item) {
-        return Promise.resolve(item).then(allSettledFulfill, allSettledReject);
-      };
-      allSettled = function(iterator) {
-        return Promise.all(Array.from(iterator).map(mapAllSettled));
-      };
-    }
-  });
-
-  // src/lib/plugins.ts
-  var plugins_exports = {};
-  __export(plugins_exports, {
-    evalPlugin: () => evalPlugin,
-    fetchPlugin: () => fetchPlugin,
-    getSettings: () => getSettings,
-    initPlugins: () => initPlugins,
-    installPlugin: () => installPlugin,
-    plugins: () => plugins,
-    removePlugin: () => removePlugin,
-    startPlugin: () => startPlugin,
-    stopPlugin: () => stopPlugin
-  });
-  async function fetchPlugin(id) {
-    if (!id.endsWith("/"))
-      id += "/";
-    const existingPlugin = plugins[id];
-    let pluginManifest;
-    try {
-      pluginManifest = await (await safeFetch(id + "manifest.json", {
-        cache: "no-store"
-      })).json();
-    } catch {
-      throw new Error(`Failed to fetch manifest for ${id}`);
-    }
-    let pluginJs;
-    if (existingPlugin?.manifest.hash !== pluginManifest.hash) {
-      try {
-        pluginJs = await (await safeFetch(id + (pluginManifest.main || "index.js"), {
-          cache: "no-store"
-        })).text();
-      } catch {
-      }
-    }
-    if (!pluginJs && !existingPlugin)
-      throw new Error(`Failed to fetch JS for ${id}`);
-    plugins[id] = {
-      id,
-      manifest: pluginManifest,
-      enabled: existingPlugin?.enabled ?? false,
-      update: existingPlugin?.update ?? true,
-      js: pluginJs ?? existingPlugin.js
-    };
-  }
-  async function installPlugin(id) {
-    let enabled = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
-    if (!id.endsWith("/"))
-      id += "/";
-    if (typeof id !== "string" || id in plugins)
-      throw new Error("Plugin already installed");
-    await fetchPlugin(id);
-    if (enabled)
-      await startPlugin(id);
-  }
-  async function evalPlugin(plugin) {
-    const vendettaForPlugins = {
-      ...window.vendetta,
-      plugin: {
-        id: plugin.id,
-        manifest: plugin.manifest,
-        // Wrapping this with wrapSync is NOT an option.
-        storage: await createStorage(createMMKVBackend(plugin.id))
-      },
-      logger: new logModule(`Vendetta \xBB ${plugin.manifest.name}`)
-    };
-    const pluginString = `vendetta=>{return ${plugin.js}}
-//# sourceURL=${plugin.id}`;
-    const raw = (0, eval)(pluginString)(vendettaForPlugins);
-    const ret = typeof raw == "function" ? raw() : raw;
-    return ret?.default ?? ret ?? {};
-  }
-  async function startPlugin(id) {
-    if (!id.endsWith("/"))
-      id += "/";
-    const plugin = plugins[id];
-    if (!plugin)
-      throw new Error("Attempted to start non-existent plugin");
-    try {
-      if (!settings_default.safeMode?.enabled) {
-        const pluginRet = await evalPlugin(plugin);
-        loadedPlugins[id] = pluginRet;
-        pluginRet.onLoad?.();
-      }
-      plugin.enabled = true;
-    } catch (e) {
-      logger_default.error(`Plugin ${plugin.id} errored whilst loading, and will be unloaded`, e);
-      try {
-        loadedPlugins[plugin.id]?.onUnload?.();
-      } catch (e2) {
-        logger_default.error(`Plugin ${plugin.id} errored whilst unloading`, e2);
-      }
-      delete loadedPlugins[id];
-      plugin.enabled = false;
-    }
-  }
-  function stopPlugin(id) {
-    let disable = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
-    if (!id.endsWith("/"))
-      id += "/";
-    const plugin = plugins[id];
-    const pluginRet = loadedPlugins[id];
-    if (!plugin)
-      throw new Error("Attempted to stop non-existent plugin");
-    if (!settings_default.safeMode?.enabled) {
-      try {
-        pluginRet?.onUnload?.();
-      } catch (e) {
-        logger_default.error(`Plugin ${plugin.id} errored whilst unloading`, e);
-      }
-      delete loadedPlugins[id];
-    }
-    disable && (plugin.enabled = false);
-  }
-  async function removePlugin(id) {
-    if (!id.endsWith("/"))
-      id += "/";
-    const plugin = plugins[id];
-    if (plugin.enabled)
-      stopPlugin(id);
-    delete plugins[id];
-    await purgeStorage(id);
-  }
-  async function initPlugins() {
-    await awaitSyncWrapper(settings_default);
-    await awaitSyncWrapper(plugins);
-    const allIds = Object.keys(plugins);
-    if (!settings_default.safeMode?.enabled) {
-      await allSettled(allIds.filter(function(pl) {
-        return plugins[pl].enabled;
-      }).map(async function(pl) {
-        return plugins[pl].update && await fetchPlugin(pl).catch(function(e) {
-          return logger_default.error(e.message);
-        }), await startPlugin(pl);
-      }));
-      allIds.filter(function(pl) {
-        return !plugins[pl].enabled && plugins[pl].update;
-      }).forEach(function(pl) {
-        return fetchPlugin(pl);
-      });
-    }
-    return stopAllPlugins;
-  }
-  var plugins, loadedPlugins, stopAllPlugins, getSettings;
-  var init_plugins = __esm({
-    "src/lib/plugins.ts"() {
-      "use strict";
-      init_utils();
-      init_storage();
-      init_polyfills();
-      init_logger();
-      init_settings();
-      plugins = wrapSync(createStorage(createMMKVBackend("VENDETTA_PLUGINS")));
-      loadedPlugins = {};
-      stopAllPlugins = function() {
-        return Object.keys(loadedPlugins).forEach(function(p) {
-          return stopPlugin(p, false);
-        });
-      };
-      getSettings = function(id) {
-        return loadedPlugins[id]?.settings;
-      };
-    }
-  });
-
-  // src/lib/constants.ts
-  var constants_exports = {};
-  __export(constants_exports, {
-    DISCORD_SERVER: () => DISCORD_SERVER,
-    DISCORD_SERVER_ID: () => DISCORD_SERVER_ID,
-    DISCORD_SERVER_REVENGE: () => DISCORD_SERVER_REVENGE,
-    DISCORD_SERVER_VENDETTA: () => DISCORD_SERVER_VENDETTA2,
-    GITHUB: () => GITHUB,
-    HTTP_REGEX: () => HTTP_REGEX,
-    HTTP_REGEX_MULTI: () => HTTP_REGEX_MULTI,
-    PLUGINS_CHANNEL_ID: () => PLUGINS_CHANNEL_ID,
-    PROXY_PREFIX: () => PROXY_PREFIX,
-    THEMES_CHANNEL_ID: () => THEMES_CHANNEL_ID
-  });
-  var DISCORD_SERVER, DISCORD_SERVER_ID, PLUGINS_CHANNEL_ID, THEMES_CHANNEL_ID, GITHUB, PROXY_PREFIX, DISCORD_SERVER_VENDETTA2, DISCORD_SERVER_REVENGE, HTTP_REGEX, HTTP_REGEX_MULTI;
-  var init_constants = __esm({
-    "src/lib/constants.ts"() {
-      "use strict";
-      DISCORD_SERVER = "https://discord.gg/n9QQ4XhhJP";
-      DISCORD_SERVER_ID = "1015931589865246730";
-      PLUGINS_CHANNEL_ID = "1091880384561684561";
-      THEMES_CHANNEL_ID = "1091880434939482202";
-      GITHUB = "https://github.com/5xdf/Vendetta-Continued";
-      PROXY_PREFIX = "https://vd-plugins.github.io/proxy";
-      DISCORD_SERVER_VENDETTA2 = "https://discord.gg/n9QQ4XhhJP";
-      DISCORD_SERVER_REVENGE = "https://discord.gg/n9QQ4XhhJP";
-      HTTP_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-      HTTP_REGEX_MULTI = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
+      versionHash = "6d3cc94";
     }
   });
 
@@ -2200,6 +1893,673 @@
     }
   });
 
+  // src/ui/settings/components/AssetDisplay.tsx
+  function AssetDisplay(param) {
+    let { asset } = param;
+    return /* @__PURE__ */ React.createElement(FormRow, {
+      label: `${asset.name} - ${asset.id}`,
+      trailing: /* @__PURE__ */ React.createElement(ReactNative.Image, {
+        source: asset.id,
+        style: {
+          width: 32,
+          height: 32
+        }
+      }),
+      onPress: function() {
+        clipboard.setString(asset.name);
+        showToast("Copied asset name to clipboard.", getAssetIDByName("toast_copy_link"));
+      }
+    });
+  }
+  var FormRow;
+  var init_AssetDisplay = __esm({
+    "src/ui/settings/components/AssetDisplay.tsx"() {
+      "use strict";
+      init_common();
+      init_toasts();
+      init_assets();
+      init_components();
+      ({ FormRow } = Forms);
+    }
+  });
+
+  // src/ui/settings/pages/AssetBrowser.tsx
+  function AssetBrowser() {
+    const [search, setSearch] = React.useState("");
+    return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(ReactNative.View, {
+      style: {
+        flex: 1
+      }
+    }, /* @__PURE__ */ React.createElement(Search_default, {
+      style: {
+        margin: 10
+      },
+      onChangeText: function(v) {
+        return setSearch(v);
+      },
+      placeholder: "Search"
+    }), /* @__PURE__ */ React.createElement(ReactNative.FlatList, {
+      data: Object.values(all).filter(function(a) {
+        return a.name.includes(search) || a.id.toString() === search;
+      }),
+      renderItem: function(param) {
+        let { item } = param;
+        return /* @__PURE__ */ React.createElement(AssetDisplay, {
+          asset: item
+        });
+      },
+      ItemSeparatorComponent: FormDivider,
+      keyExtractor: function(item) {
+        return item.name;
+      }
+    })));
+  }
+  var FormDivider;
+  var init_AssetBrowser = __esm({
+    "src/ui/settings/pages/AssetBrowser.tsx"() {
+      "use strict";
+      init_common();
+      init_assets();
+      init_components();
+      init_AssetDisplay();
+      ({ FormDivider } = Forms);
+    }
+  });
+
+  // src/ui/settings/pages/Secret.tsx
+  function General2() {
+    return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(ReactNative.ScrollView, {
+      style: {
+        flex: 0.5
+      },
+      contentContainerStyle: {
+        padding: 16,
+        alignItems: "center"
+      }
+    }, /* @__PURE__ */ React.createElement(TableRowGroup, null, /* @__PURE__ */ React.createElement(Stack, {
+      spacing: 16
+    }, /* @__PURE__ */ React.createElement(TableRow, {
+      label: "This page isn't done!",
+      subLabel: "This page isn't done. If it is something complicated, it most likely won't be done any time soon.",
+      onPress: function() {
+        return showToast(`What are you doing?`, getAssetIDByName("alert"));
+      },
+      arrow: true
+    })))));
+  }
+  var Stack, TableRow, TableRowIcon, TableSwitchRow, TableRowGroup;
+  var init_Secret = __esm({
+    "src/ui/settings/pages/Secret.tsx"() {
+      "use strict";
+      init_common();
+      init_components();
+      init_assets();
+      init_toasts();
+      ({ Stack, TableRow, TableRowIcon, TableSwitchRow, TableRowGroup } = Tabs);
+    }
+  });
+
+  // src/ui/settings/pages/Developer.tsx
+  function Developer() {
+    const navigation2 = NavigationNative.useNavigation();
+    useProxy(settings_default);
+    useProxy(loaderConfig);
+    return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(ReactNative.ScrollView, {
+      style: {
+        flex: 1
+      },
+      contentContainerStyle: {
+        padding: 16,
+        alignItems: "center"
+      }
+    }, /* @__PURE__ */ React.createElement(Stack2, {
+      spacing: 50
+    }, /* @__PURE__ */ React.createElement(TableRowGroup2, {
+      title: "Debug Bridge"
+    }, /* @__PURE__ */ React.createElement(TableSwitchRow2, {
+      label: "Enabled",
+      subLabel: "Automatically connects to a specified remote debug bridge to allow for code evaluation.",
+      value: settings_default.debugBridgeEnabled,
+      onValueChange: function(v) {
+        settings_default.debugBridgeEnabled = v;
+        try {
+          v ? connectToDebugger(settings_default.debuggerUrl) : socket.close();
+        } catch {
+        }
+      }
+    }), /* @__PURE__ */ React.createElement(ReactNative.View, {
+      style: {
+        paddingVertical: 8,
+        paddingHorizontal: 16
+      }
+    }, /* @__PURE__ */ React.createElement(TextInput, {
+      label: "Debug IP",
+      placeholder: "127.0.0.1:9090",
+      size: "md",
+      defaultValue: settings_default.debuggerUrl,
+      onChange: function(v) {
+        settings_default.debuggerUrl = v;
+      }
+    }))), window.__vendetta_loader?.features.loaderConfig && /* @__PURE__ */ React.createElement(TableRowGroup2, {
+      title: "Loader"
+    }, /* @__PURE__ */ React.createElement(TableSwitchRow2, {
+      label: "Enabled",
+      subLabel: "Handles the loading of Strife. You will need to edit the configuration file to enable the loader again.",
+      value: false,
+      onValueChange: function(v) {
+        showToast("not needed lol", getAssetIDByName("Check"));
+      }
+    }), /* @__PURE__ */ React.createElement(TableSwitchRow2, {
+      label: "React DevTools",
+      subLabel: "Enables remote developer tools that can be accessed from a desktop.",
+      value: settings_default.rdtEnabled,
+      onValueChange: function(v) {
+        settings_default.rdtEnabled = v;
+        if (v)
+          connectToRDT();
+      }
+    }), /* @__PURE__ */ React.createElement(TableSwitchRow2, {
+      label: "Beta Branch",
+      subLabel: "Gets the code from the Beta Branch instead of the main branch. Will reload discord.",
+      value: settings_default.betaBranch,
+      onValueChange: function(v) {
+        settings_default.betaBranch = v;
+        loaderConfig.customLoadUrl.url = `https://raw.githubusercontent.com/5xdf/Strife/${v ? "beta" : "main"}/strifemod/strife.js`;
+        showToast(`Reloading discord...`, getAssetIDByName("MoreHorizontalIcon"));
+        settings_default.startingPage = "Dev";
+        setTimeout(function() {
+          BundleUpdaterManager.reload();
+        }, 1e3);
+      }
+    }), /* @__PURE__ */ React.createElement(ReactNative.View, {
+      style: {
+        paddingVertical: 8,
+        paddingHorizontal: 16
+      }
+    }, /* @__PURE__ */ React.createElement(TextInput, {
+      label: "Custom Loader URL",
+      placeholder: "http://localhost:4040/bound.js",
+      size: "md",
+      defaultValue: loaderConfig.customLoadUrl.url,
+      onChange: function(v) {
+        loaderConfig.customLoadUrl.url = v;
+      }
+    })), /* @__PURE__ */ React.createElement(TableRow2, {
+      label: "Clear loader URL",
+      subLabel: "Doing this will reload discord and will return you back to normal.",
+      onPress: function() {
+        showSimpleActionSheet({
+          key: "unfinishedAction",
+          header: {
+            title: "Hey, this is not finished right now.",
+            icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
+              style: {
+                marginRight: 8
+              },
+              source: getAssetIDByName("ic_lock")
+            }),
+            onClose: function() {
+              return hideActionSheet();
+            }
+          },
+          options: [
+            {
+              label: "Okay",
+              onPress: function() {
+                return hideActionSheet();
+              }
+            }
+          ]
+        });
+      }
+    })), /* @__PURE__ */ React.createElement(TableRowGroup2, {
+      title: "Error Boundary"
+    }, /* @__PURE__ */ React.createElement(TableSwitchRow2, {
+      label: "Error Boundary",
+      subLabel: `Crash recovery module. Do not disable if you are a "consumer".`,
+      value: settings_default.errorBoundaryEnabled ?? true,
+      onValueChange: function(v) {
+        settings_default.errorBoundaryEnabled = v;
+        showToast(`Crash recovery module has been ${v ? "enabled" : "disabled"}`, getAssetIDByName("MoreHorizontalIcon"));
+      }
+    }), /* @__PURE__ */ React.createElement(TableRow2, {
+      label: "Trigger ErrorBoundary",
+      subLabel: "Trips the error boundary on purpose to visualise the effects of it.",
+      onPress: function() {
+        return showSimpleActionSheet({
+          key: "ErrorBoundaryTools",
+          header: {
+            title: "Which ErrorBoundary do you want to trip?",
+            icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
+              style: {
+                marginRight: 8
+              },
+              source: getAssetIDByName("ic_warning_24px")
+            }),
+            onClose: function() {
+              return hideActionSheet();
+            }
+          },
+          options: [
+            // @ts-expect-error 
+            // Of course, to trigger an error, we need to do something incorrectly. The below will do!
+            {
+              label: "Strife",
+              onPress: function() {
+                return navigation2.push("VendettaCustomPage", {
+                  render: function() {
+                    return /* @__PURE__ */ React.createElement("undefined", null);
+                  }
+                });
+              }
+            },
+            {
+              label: "Discord",
+              isDestructive: true,
+              onPress: function() {
+                return navigation2.push("VendettaCustomPage", {
+                  noErrorBoundary: true
+                });
+              }
+            }
+          ]
+        });
+      },
+      arrow: true
+    })), /* @__PURE__ */ React.createElement(TableRowGroup2, {
+      title: "Logging"
+    }, /* @__PURE__ */ React.createElement(TableRow2, {
+      label: "Inspection Depth",
+      trailing: /* @__PURE__ */ React.createElement(TableRow2.TrailingText, {
+        text: `${settings_default.inspectionDepth ?? 1} nested object(s) deep`
+      })
+    }), /* @__PURE__ */ React.createElement(ReactNative.View, {
+      style: {
+        paddingVertical: 4,
+        paddingHorizontal: 16
+      }
+    }, /* @__PURE__ */ React.createElement(Slider, {
+      value: settings_default.inspectionDepth ?? 1,
+      onValueChange: function(v) {
+        settings_default.inspectionDepth = v;
+        showToast(`Set inspection depth to ${settings_default.inspectionDepth} nested object(s) deep`, getAssetIDByName("toast_copy_link"));
+      },
+      minimumValue: 1,
+      maximumValue: 99999,
+      step: 1
+    })), /* @__PURE__ */ React.createElement(TableRow2, {
+      label: "Debug Logs",
+      icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
+        source: getAssetIDByName("debug")
+      }),
+      onPress: function() {
+        return navigation2.push("VendettaCustomPage", {
+          render: General2
+        });
+      },
+      arrow: true
+    })), /* @__PURE__ */ React.createElement(TableRowGroup2, {
+      title: "Misc"
+    }, /* @__PURE__ */ React.createElement(TableRow2, {
+      label: "Restart",
+      icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
+        source: getAssetIDByName("RetryIcon")
+      }),
+      onPress: function() {
+        return BundleUpdaterManager.reload();
+      },
+      arrow: true
+    }), /* @__PURE__ */ React.createElement(TableRow2, {
+      label: "Force Garbage Collection",
+      icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
+        source: getAssetIDByName("trash")
+      }),
+      onPress: function() {
+        return window.gc?.();
+      },
+      arrow: true
+    }), /* @__PURE__ */ React.createElement(TableRow2, {
+      label: "Asset Browser",
+      icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
+        source: getAssetIDByName("ImageTextIcon")
+      }),
+      onPress: function() {
+        return navigation2.push("VendettaCustomPage", {
+          title: "Asset Browser",
+          render: AssetBrowser
+        });
+      },
+      arrow: true
+    })))));
+  }
+  var Stack2, TableRow2, TableRowIcon2, TableSwitchRow2, TableRowGroup2, TextInput, Slider, hideActionSheet, showSimpleActionSheet;
+  var init_Developer = __esm({
+    "src/ui/settings/pages/Developer.tsx"() {
+      "use strict";
+      init_common();
+      init_filters();
+      init_debug();
+      init_native();
+      init_storage();
+      init_toasts();
+      init_assets();
+      init_components();
+      init_settings();
+      init_AssetBrowser();
+      init_Secret();
+      ({ Stack: Stack2, TableRow: TableRow2, TableRowIcon: TableRowIcon2, TableSwitchRow: TableSwitchRow2, TableRowGroup: TableRowGroup2, TextInput, Slider } = Tabs);
+      ({ hideActionSheet } = findByProps("openLazy", "hideActionSheet"));
+      ({ showSimpleActionSheet } = findByProps("showSimpleActionSheet"));
+    }
+  });
+
+  // src/def.d.ts
+  var ButtonColors, ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType;
+  var init_def_d = __esm({
+    "src/def.d.ts"() {
+      (function(ButtonColors2) {
+        ButtonColors2["BRAND"] = "brand";
+        ButtonColors2["RED"] = "red";
+        ButtonColors2["GREEN"] = "green";
+        ButtonColors2["PRIMARY"] = "primary";
+        ButtonColors2["TRANSPARENT"] = "transparent";
+        ButtonColors2["GREY"] = "grey";
+        ButtonColors2["LIGHTGREY"] = "lightgrey";
+        ButtonColors2["WHITE"] = "white";
+        ButtonColors2["LINK"] = "link";
+      })(ButtonColors || (ButtonColors = {}));
+      (function(ApplicationCommandInputType2) {
+        ApplicationCommandInputType2[ApplicationCommandInputType2["BUILT_IN"] = 0] = "BUILT_IN";
+        ApplicationCommandInputType2[ApplicationCommandInputType2["BUILT_IN_TEXT"] = 1] = "BUILT_IN_TEXT";
+        ApplicationCommandInputType2[ApplicationCommandInputType2["BUILT_IN_INTEGRATION"] = 2] = "BUILT_IN_INTEGRATION";
+        ApplicationCommandInputType2[ApplicationCommandInputType2["BOT"] = 3] = "BOT";
+        ApplicationCommandInputType2[ApplicationCommandInputType2["PLACEHOLDER"] = 4] = "PLACEHOLDER";
+      })(ApplicationCommandInputType || (ApplicationCommandInputType = {}));
+      (function(ApplicationCommandOptionType2) {
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["SUB_COMMAND"] = 1] = "SUB_COMMAND";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["SUB_COMMAND_GROUP"] = 2] = "SUB_COMMAND_GROUP";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["STRING"] = 3] = "STRING";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["INTEGER"] = 4] = "INTEGER";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["BOOLEAN"] = 5] = "BOOLEAN";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["USER"] = 6] = "USER";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["CHANNEL"] = 7] = "CHANNEL";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["ROLE"] = 8] = "ROLE";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["MENTIONABLE"] = 9] = "MENTIONABLE";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["NUMBER"] = 10] = "NUMBER";
+        ApplicationCommandOptionType2[ApplicationCommandOptionType2["ATTACHMENT"] = 11] = "ATTACHMENT";
+      })(ApplicationCommandOptionType || (ApplicationCommandOptionType = {}));
+      (function(ApplicationCommandType2) {
+        ApplicationCommandType2[ApplicationCommandType2["CHAT"] = 1] = "CHAT";
+        ApplicationCommandType2[ApplicationCommandType2["USER"] = 2] = "USER";
+        ApplicationCommandType2[ApplicationCommandType2["MESSAGE"] = 3] = "MESSAGE";
+      })(ApplicationCommandType || (ApplicationCommandType = {}));
+    }
+  });
+
+  // src/lib/commands.ts
+  var commands_exports = {};
+  __export(commands_exports, {
+    patchCommands: () => patchCommands,
+    registerCommand: () => registerCommand
+  });
+  function patchCommands() {
+    const unpatch2 = after("getBuiltInCommands", commands, function(param, res) {
+      let [type] = param;
+      if (type === ApplicationCommandType.CHAT)
+        return res.concat(commands2);
+    });
+    return function() {
+      commands2 = [];
+      unpatch2();
+    };
+  }
+  function registerCommand(command) {
+    const builtInCommands = commands.getBuiltInCommands(ApplicationCommandType.CHAT, true, false);
+    builtInCommands.sort(function(a, b) {
+      return parseInt(b.id) - parseInt(a.id);
+    });
+    const lastCommand = builtInCommands[builtInCommands.length - 1];
+    command.id = (parseInt(lastCommand.id, 10) - 1).toString();
+    commands2.push(command);
+    return function() {
+      return commands2 = commands2.filter(function(param) {
+        let { id } = param;
+        return id !== command.id;
+      });
+    };
+  }
+  var commands2;
+  var init_commands = __esm({
+    "src/lib/commands.ts"() {
+      "use strict";
+      init_def_d();
+      init_common();
+      init_patcher();
+      commands2 = [];
+    }
+  });
+
+  // src/lib/polyfills.ts
+  var allSettledFulfill, allSettledReject, mapAllSettled, allSettled;
+  var init_polyfills = __esm({
+    "src/lib/polyfills.ts"() {
+      "use strict";
+      allSettledFulfill = function(value) {
+        return {
+          status: "fulfilled",
+          value
+        };
+      };
+      allSettledReject = function(reason) {
+        return {
+          status: "rejected",
+          reason
+        };
+      };
+      mapAllSettled = function(item) {
+        return Promise.resolve(item).then(allSettledFulfill, allSettledReject);
+      };
+      allSettled = function(iterator) {
+        return Promise.all(Array.from(iterator).map(mapAllSettled));
+      };
+    }
+  });
+
+  // src/lib/plugins.ts
+  var plugins_exports = {};
+  __export(plugins_exports, {
+    evalPlugin: () => evalPlugin,
+    fetchPlugin: () => fetchPlugin,
+    getSettings: () => getSettings,
+    initPlugins: () => initPlugins,
+    installPlugin: () => installPlugin,
+    plugins: () => plugins,
+    removePlugin: () => removePlugin,
+    startPlugin: () => startPlugin,
+    stopPlugin: () => stopPlugin
+  });
+  async function fetchPlugin(id) {
+    if (!id.endsWith("/"))
+      id += "/";
+    const existingPlugin = plugins[id];
+    let pluginManifest;
+    try {
+      pluginManifest = await (await safeFetch(id + "manifest.json", {
+        cache: "no-store"
+      })).json();
+    } catch {
+      throw new Error(`Failed to fetch manifest for ${id}`);
+    }
+    let pluginJs;
+    if (existingPlugin?.manifest.hash !== pluginManifest.hash) {
+      try {
+        pluginJs = await (await safeFetch(id + (pluginManifest.main || "index.js"), {
+          cache: "no-store"
+        })).text();
+      } catch {
+      }
+    }
+    if (!pluginJs && !existingPlugin)
+      throw new Error(`Failed to fetch JS for ${id}`);
+    plugins[id] = {
+      id,
+      manifest: pluginManifest,
+      enabled: existingPlugin?.enabled ?? false,
+      update: existingPlugin?.update ?? true,
+      js: pluginJs ?? existingPlugin.js
+    };
+  }
+  async function installPlugin(id) {
+    let enabled = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
+    if (!id.endsWith("/"))
+      id += "/";
+    if (typeof id !== "string" || id in plugins)
+      throw new Error("Plugin already installed");
+    await fetchPlugin(id);
+    if (enabled)
+      await startPlugin(id);
+  }
+  async function evalPlugin(plugin) {
+    const vendettaForPlugins = {
+      ...window.vendetta,
+      plugin: {
+        id: plugin.id,
+        manifest: plugin.manifest,
+        // Wrapping this with wrapSync is NOT an option.
+        storage: await createStorage(createMMKVBackend(plugin.id))
+      },
+      logger: new logModule(`Vendetta \xBB ${plugin.manifest.name}`)
+    };
+    const pluginString = `vendetta=>{return ${plugin.js}}
+//# sourceURL=${plugin.id}`;
+    const raw = (0, eval)(pluginString)(vendettaForPlugins);
+    const ret = typeof raw == "function" ? raw() : raw;
+    return ret?.default ?? ret ?? {};
+  }
+  async function startPlugin(id) {
+    if (!id.endsWith("/"))
+      id += "/";
+    const plugin = plugins[id];
+    if (!plugin)
+      throw new Error("Attempted to start non-existent plugin");
+    try {
+      if (!settings_default.safeMode?.enabled) {
+        const pluginRet = await evalPlugin(plugin);
+        loadedPlugins[id] = pluginRet;
+        pluginRet.onLoad?.();
+      }
+      plugin.enabled = true;
+    } catch (e) {
+      logger_default.error(`Plugin ${plugin.id} errored whilst loading, and will be unloaded`, e);
+      try {
+        loadedPlugins[plugin.id]?.onUnload?.();
+      } catch (e2) {
+        logger_default.error(`Plugin ${plugin.id} errored whilst unloading`, e2);
+      }
+      delete loadedPlugins[id];
+      plugin.enabled = false;
+    }
+  }
+  function stopPlugin(id) {
+    let disable = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
+    if (!id.endsWith("/"))
+      id += "/";
+    const plugin = plugins[id];
+    const pluginRet = loadedPlugins[id];
+    if (!plugin)
+      throw new Error("Attempted to stop non-existent plugin");
+    if (!settings_default.safeMode?.enabled) {
+      try {
+        pluginRet?.onUnload?.();
+      } catch (e) {
+        logger_default.error(`Plugin ${plugin.id} errored whilst unloading`, e);
+      }
+      delete loadedPlugins[id];
+    }
+    disable && (plugin.enabled = false);
+  }
+  async function removePlugin(id) {
+    if (!id.endsWith("/"))
+      id += "/";
+    const plugin = plugins[id];
+    if (plugin.enabled)
+      stopPlugin(id);
+    delete plugins[id];
+    await purgeStorage(id);
+  }
+  async function initPlugins() {
+    await awaitSyncWrapper(settings_default);
+    await awaitSyncWrapper(plugins);
+    const allIds = Object.keys(plugins);
+    if (!settings_default.safeMode?.enabled) {
+      await allSettled(allIds.filter(function(pl) {
+        return plugins[pl].enabled;
+      }).map(async function(pl) {
+        return plugins[pl].update && await fetchPlugin(pl).catch(function(e) {
+          return logger_default.error(e.message);
+        }), await startPlugin(pl);
+      }));
+      allIds.filter(function(pl) {
+        return !plugins[pl].enabled && plugins[pl].update;
+      }).forEach(function(pl) {
+        return fetchPlugin(pl);
+      });
+    }
+    return stopAllPlugins;
+  }
+  var plugins, loadedPlugins, stopAllPlugins, getSettings;
+  var init_plugins = __esm({
+    "src/lib/plugins.ts"() {
+      "use strict";
+      init_utils();
+      init_storage();
+      init_polyfills();
+      init_logger();
+      init_settings();
+      plugins = wrapSync(createStorage(createMMKVBackend("VENDETTA_PLUGINS")));
+      loadedPlugins = {};
+      stopAllPlugins = function() {
+        return Object.keys(loadedPlugins).forEach(function(p) {
+          return stopPlugin(p, false);
+        });
+      };
+      getSettings = function(id) {
+        return loadedPlugins[id]?.settings;
+      };
+    }
+  });
+
+  // src/lib/constants.ts
+  var constants_exports = {};
+  __export(constants_exports, {
+    DISCORD_SERVER: () => DISCORD_SERVER,
+    DISCORD_SERVER_ID: () => DISCORD_SERVER_ID,
+    DISCORD_SERVER_REVENGE: () => DISCORD_SERVER_REVENGE,
+    DISCORD_SERVER_VENDETTA: () => DISCORD_SERVER_VENDETTA2,
+    GITHUB: () => GITHUB,
+    HTTP_REGEX: () => HTTP_REGEX,
+    HTTP_REGEX_MULTI: () => HTTP_REGEX_MULTI,
+    PLUGINS_CHANNEL_ID: () => PLUGINS_CHANNEL_ID,
+    PROXY_PREFIX: () => PROXY_PREFIX,
+    THEMES_CHANNEL_ID: () => THEMES_CHANNEL_ID
+  });
+  var DISCORD_SERVER, DISCORD_SERVER_ID, PLUGINS_CHANNEL_ID, THEMES_CHANNEL_ID, GITHUB, PROXY_PREFIX, DISCORD_SERVER_VENDETTA2, DISCORD_SERVER_REVENGE, HTTP_REGEX, HTTP_REGEX_MULTI;
+  var init_constants = __esm({
+    "src/lib/constants.ts"() {
+      "use strict";
+      DISCORD_SERVER = "https://discord.gg/n9QQ4XhhJP";
+      DISCORD_SERVER_ID = "1015931589865246730";
+      PLUGINS_CHANNEL_ID = "1091880384561684561";
+      THEMES_CHANNEL_ID = "1091880434939482202";
+      GITHUB = "https://github.com/5xdf/Vendetta-Continued";
+      PROXY_PREFIX = "https://vd-plugins.github.io/proxy";
+      DISCORD_SERVER_VENDETTA2 = "https://discord.gg/n9QQ4XhhJP";
+      DISCORD_SERVER_REVENGE = "https://discord.gg/n9QQ4XhhJP";
+      HTTP_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+      HTTP_REGEX_MULTI = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
+    }
+  });
+
   // src/ui/quickInstall/forumPost.tsx
   function forumPost_default() {
     return after("default", ForumPostLongPressActionSheet, function(param, res) {
@@ -2235,7 +2595,7 @@
       const ActionsSection = actions[0].type;
       actions.unshift(/* @__PURE__ */ React.createElement(ActionsSection, {
         key: "install"
-      }, /* @__PURE__ */ React.createElement(FormRow, {
+      }, /* @__PURE__ */ React.createElement(FormRow2, {
         leading: /* @__PURE__ */ React.createElement(FormIcon, {
           style: {
             opacity: 1
@@ -2249,13 +2609,13 @@
           }).catch(function(e) {
             showToast(e.message, getAssetIDByName("Small"));
           }).finally(function() {
-            return hideActionSheet();
+            return hideActionSheet2();
           });
         }
       })));
     });
   }
-  var ForumPostLongPressActionSheet, FormRow, FormIcon, useFirstForumPostMessage, hideActionSheet;
+  var ForumPostLongPressActionSheet, FormRow2, FormIcon, useFirstForumPostMessage, hideActionSheet2;
   var init_forumPost = __esm({
     "src/ui/quickInstall/forumPost.tsx"() {
       "use strict";
@@ -2269,9 +2629,9 @@
       init_toasts();
       init_components();
       ForumPostLongPressActionSheet = findByName("ForumPostLongPressActionSheet", false);
-      ({ FormRow, FormIcon } = Forms);
+      ({ FormRow: FormRow2, FormIcon } = Forms);
       ({ useFirstForumPostMessage } = findByProps("useFirstForumPostMessage"));
-      ({ hideActionSheet } = findByProps("openLazy", "hideActionSheet"));
+      ({ hideActionSheet: hideActionSheet2 } = findByProps("openLazy", "hideActionSheet"));
     }
   });
 
@@ -2384,7 +2744,7 @@
   }
   function url_default() {
     const patches = new Array();
-    patches.push(after("showSimpleActionSheet", showSimpleActionSheet, function(args) {
+    patches.push(after("showSimpleActionSheet", showSimpleActionSheet2, function(args) {
       if (args[0].key !== "LongPressUrl")
         return;
       const { header: { title: url2 }, options } = args[0];
@@ -2431,7 +2791,7 @@
       });
     };
   }
-  var showSimpleActionSheet, handleClick, openURL, getChannelId, getChannel, TextStyleSheet2;
+  var showSimpleActionSheet2, handleClick, openURL, getChannelId, getChannel, TextStyleSheet2;
   var init_url = __esm({
     "src/ui/quickInstall/url.tsx"() {
       "use strict";
@@ -2444,7 +2804,7 @@
       init_alerts();
       init_assets();
       init_toasts();
-      showSimpleActionSheet = find(function(m) {
+      showSimpleActionSheet2 = find(function(m) {
         return m?.showSimpleActionSheet && !Object.getOwnPropertyDescriptor(m, "showSimpleActionSheet")?.get;
       });
       handleClick = findByProps("handleClick");
@@ -2671,337 +3031,6 @@
           tintColor: semanticColors.HEADER_PRIMARY
         }
       });
-    }
-  });
-
-  // src/ui/settings/components/AssetDisplay.tsx
-  function AssetDisplay(param) {
-    let { asset } = param;
-    return /* @__PURE__ */ React.createElement(FormRow2, {
-      label: `${asset.name} - ${asset.id}`,
-      trailing: /* @__PURE__ */ React.createElement(ReactNative.Image, {
-        source: asset.id,
-        style: {
-          width: 32,
-          height: 32
-        }
-      }),
-      onPress: function() {
-        clipboard.setString(asset.name);
-        showToast("Copied asset name to clipboard.", getAssetIDByName("toast_copy_link"));
-      }
-    });
-  }
-  var FormRow2;
-  var init_AssetDisplay = __esm({
-    "src/ui/settings/components/AssetDisplay.tsx"() {
-      "use strict";
-      init_common();
-      init_toasts();
-      init_assets();
-      init_components();
-      ({ FormRow: FormRow2 } = Forms);
-    }
-  });
-
-  // src/ui/settings/pages/AssetBrowser.tsx
-  function AssetBrowser() {
-    const [search, setSearch] = React.useState("");
-    return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(ReactNative.View, {
-      style: {
-        flex: 1
-      }
-    }, /* @__PURE__ */ React.createElement(Search_default, {
-      style: {
-        margin: 10
-      },
-      onChangeText: function(v) {
-        return setSearch(v);
-      },
-      placeholder: "Search"
-    }), /* @__PURE__ */ React.createElement(ReactNative.FlatList, {
-      data: Object.values(all).filter(function(a) {
-        return a.name.includes(search) || a.id.toString() === search;
-      }),
-      renderItem: function(param) {
-        let { item } = param;
-        return /* @__PURE__ */ React.createElement(AssetDisplay, {
-          asset: item
-        });
-      },
-      ItemSeparatorComponent: FormDivider,
-      keyExtractor: function(item) {
-        return item.name;
-      }
-    })));
-  }
-  var FormDivider;
-  var init_AssetBrowser = __esm({
-    "src/ui/settings/pages/AssetBrowser.tsx"() {
-      "use strict";
-      init_common();
-      init_assets();
-      init_components();
-      init_AssetDisplay();
-      ({ FormDivider } = Forms);
-    }
-  });
-
-  // src/ui/settings/pages/Secret.tsx
-  function General2() {
-    return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(ReactNative.ScrollView, {
-      style: {
-        flex: 0.5
-      },
-      contentContainerStyle: {
-        padding: 16,
-        alignItems: "center"
-      }
-    }, /* @__PURE__ */ React.createElement(TableRowGroup, null, /* @__PURE__ */ React.createElement(Stack, {
-      spacing: 16
-    }, /* @__PURE__ */ React.createElement(TableRow, {
-      label: "This page isn't done!",
-      subLabel: "This page isn't done. If it is something complicated, it most likely won't be done any time soon.",
-      onPress: function() {
-        return showToast(`What are you doing?`, getAssetIDByName("alert"));
-      },
-      arrow: true
-    })))));
-  }
-  var Stack, TableRow, TableRowIcon, TableSwitchRow, TableRowGroup;
-  var init_Secret = __esm({
-    "src/ui/settings/pages/Secret.tsx"() {
-      "use strict";
-      init_common();
-      init_components();
-      init_assets();
-      init_toasts();
-      ({ Stack, TableRow, TableRowIcon, TableSwitchRow, TableRowGroup } = Tabs);
-    }
-  });
-
-  // src/ui/settings/pages/Developer.tsx
-  function Developer() {
-    const navigation2 = NavigationNative.useNavigation();
-    useProxy(settings_default);
-    useProxy(loaderConfig);
-    return /* @__PURE__ */ React.createElement(ErrorBoundary, null, /* @__PURE__ */ React.createElement(ReactNative.ScrollView, {
-      style: {
-        flex: 1
-      },
-      contentContainerStyle: {
-        padding: 16,
-        alignItems: "center"
-      }
-    }, /* @__PURE__ */ React.createElement(Stack2, {
-      spacing: 50
-    }, /* @__PURE__ */ React.createElement(TableRowGroup2, {
-      title: "Debug Bridge"
-    }, /* @__PURE__ */ React.createElement(TableSwitchRow2, {
-      label: "Enabled",
-      subLabel: "Automatically connects to a specified remote debug bridge to allow for code evaluation.",
-      value: settings_default.debugBridgeEnabled,
-      onValueChange: function(v) {
-        settings_default.debugBridgeEnabled = v;
-        try {
-          v ? connectToDebugger(settings_default.debuggerUrl) : socket.close();
-        } catch {
-        }
-      }
-    }), /* @__PURE__ */ React.createElement(ReactNative.View, {
-      style: {
-        paddingVertical: 8,
-        paddingHorizontal: 16
-      }
-    }, /* @__PURE__ */ React.createElement(TextInput, {
-      label: "Debug IP",
-      placeholder: "127.0.0.1:9090",
-      size: "md",
-      defaultValue: settings_default.debuggerUrl,
-      onChange: function(v) {
-        settings_default.debuggerUrl = v;
-      }
-    }))), window.__vendetta_loader?.features.loaderConfig && /* @__PURE__ */ React.createElement(TableRowGroup2, {
-      title: "Loader"
-    }, /* @__PURE__ */ React.createElement(TableSwitchRow2, {
-      label: "Enabled",
-      subLabel: "Handles the loading of Strife. You will need to edit the configuration file to enable the loader again.",
-      value: false,
-      onValueChange: function(v) {
-        showToast("not needed lol", getAssetIDByName("Check"));
-      }
-    }), /* @__PURE__ */ React.createElement(TableSwitchRow2, {
-      label: "React DevTools",
-      subLabel: "Enables remote developer tools that can be accessed from a desktop.",
-      value: settings_default.rdtEnabled,
-      onValueChange: function(v) {
-        settings_default.rdtEnabled = v;
-        if (v)
-          connectToRDT();
-      }
-    }), /* @__PURE__ */ React.createElement(TableSwitchRow2, {
-      label: "Beta Branch",
-      subLabel: "Gets the code from the Beta Branch instead of the main branch. Will reload discord.",
-      value: settings_default.betaBranch,
-      onValueChange: function(v) {
-        settings_default.betaBranch = v;
-        loaderConfig.customLoadUrl.url = `https://raw.githubusercontent.com/5xdf/Strife/${v ? "beta" : "main"}/strifemod/strife.js`;
-        showToast(`Reloading discord...`, getAssetIDByName("MoreHorizontalIcon"));
-        setTimeout(function() {
-          BundleUpdaterManager.reload();
-        }, 1e3);
-      }
-    }), /* @__PURE__ */ React.createElement(ReactNative.View, {
-      style: {
-        paddingVertical: 8,
-        paddingHorizontal: 16
-      }
-    }, /* @__PURE__ */ React.createElement(TextInput, {
-      label: "Custom Loader URL",
-      placeholder: "http://localhost:4040/bound.js",
-      size: "md",
-      defaultValue: loaderConfig.customLoadUrl.url,
-      onChange: function(v) {
-        loaderConfig.customLoadUrl.url = v;
-      }
-    }))), /* @__PURE__ */ React.createElement(TableRowGroup2, {
-      title: "Error Boundary"
-    }, /* @__PURE__ */ React.createElement(TableSwitchRow2, {
-      label: "Error Boundary",
-      subLabel: `Crash recovery module. Do not disable if you are a "consumer".`,
-      value: settings_default.errorBoundaryEnabled ?? true,
-      onValueChange: function(v) {
-        settings_default.errorBoundaryEnabled = v;
-        showToast(`Crash recovery module has been ${v ? "enabled" : "disabled"}`, getAssetIDByName("MoreHorizontalIcon"));
-      }
-    }), /* @__PURE__ */ React.createElement(TableRow2, {
-      label: "Trigger ErrorBoundary",
-      subLabel: "Trips the error boundary on purpose to visualise the effects of it.",
-      onPress: function() {
-        return showSimpleActionSheet2({
-          key: "ErrorBoundaryTools",
-          header: {
-            title: "Which ErrorBoundary do you want to trip?",
-            icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
-              style: {
-                marginRight: 8
-              },
-              source: getAssetIDByName("ic_warning_24px")
-            }),
-            onClose: function() {
-              return hideActionSheet2();
-            }
-          },
-          options: [
-            // @ts-expect-error 
-            // Of course, to trigger an error, we need to do something incorrectly. The below will do!
-            {
-              label: "Strife",
-              onPress: function() {
-                return navigation2.push("VendettaCustomPage", {
-                  render: function() {
-                    return /* @__PURE__ */ React.createElement("undefined", null);
-                  }
-                });
-              }
-            },
-            {
-              label: "Discord",
-              isDestructive: true,
-              onPress: function() {
-                return navigation2.push("VendettaCustomPage", {
-                  noErrorBoundary: true
-                });
-              }
-            }
-          ]
-        });
-      },
-      arrow: true
-    })), /* @__PURE__ */ React.createElement(TableRowGroup2, {
-      title: "Logging"
-    }, /* @__PURE__ */ React.createElement(TableRow2, {
-      label: "Inspection Depth",
-      trailing: /* @__PURE__ */ React.createElement(TableRow2.TrailingText, {
-        text: `${settings_default.inspectionDepth ?? 1} nested object(s) deep`
-      })
-    }), /* @__PURE__ */ React.createElement(ReactNative.View, {
-      style: {
-        paddingVertical: 4,
-        paddingHorizontal: 16
-      }
-    }, /* @__PURE__ */ React.createElement(Slider, {
-      value: settings_default.inspectionDepth ?? 1,
-      onValueChange: function(v) {
-        settings_default.inspectionDepth = v;
-        showToast(`Set inspection depth to ${settings_default.inspectionDepth} nested object(s) deep`, getAssetIDByName("toast_copy_link"));
-      },
-      minimumValue: 1,
-      maximumValue: 99999,
-      step: 1
-    })), /* @__PURE__ */ React.createElement(TableRow2, {
-      label: "Debug Logs",
-      icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
-        source: getAssetIDByName("debug")
-      }),
-      onPress: function() {
-        return navigation2.push("VendettaCustomPage", {
-          render: General2
-        });
-      },
-      arrow: true
-    })), /* @__PURE__ */ React.createElement(TableRowGroup2, {
-      title: "Misc"
-    }, /* @__PURE__ */ React.createElement(TableRow2, {
-      label: "Restart",
-      icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
-        source: getAssetIDByName("RetryIcon")
-      }),
-      onPress: function() {
-        return BundleUpdaterManager.reload();
-      },
-      arrow: true
-    }), /* @__PURE__ */ React.createElement(TableRow2, {
-      label: "Force Garbage Collection",
-      icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
-        source: getAssetIDByName("trash")
-      }),
-      onPress: function() {
-        return window.gc?.();
-      },
-      arrow: true
-    }), /* @__PURE__ */ React.createElement(TableRow2, {
-      label: "Asset Browser",
-      icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
-        source: getAssetIDByName("ImageTextIcon")
-      }),
-      onPress: function() {
-        return navigation2.push("VendettaCustomPage", {
-          title: "Asset Browser",
-          render: AssetBrowser
-        });
-      },
-      arrow: true
-    })))));
-  }
-  var Stack2, TableRow2, TableRowIcon2, TableSwitchRow2, TableRowGroup2, TextInput, Slider, hideActionSheet2, showSimpleActionSheet2;
-  var init_Developer = __esm({
-    "src/ui/settings/pages/Developer.tsx"() {
-      "use strict";
-      init_common();
-      init_filters();
-      init_debug();
-      init_native();
-      init_storage();
-      init_toasts();
-      init_assets();
-      init_components();
-      init_settings();
-      init_AssetBrowser();
-      init_Secret();
-      ({ Stack: Stack2, TableRow: TableRow2, TableRowIcon: TableRowIcon2, TableSwitchRow: TableSwitchRow2, TableRowGroup: TableRowGroup2, TextInput, Slider } = Tabs);
-      ({ hideActionSheet: hideActionSheet2 } = findByProps("openLazy", "hideActionSheet"));
-      ({ showSimpleActionSheet: showSimpleActionSheet2 } = findByProps("showSimpleActionSheet"));
     }
   });
 
@@ -4196,6 +4225,9 @@
 
   // src/entry.ts
   init_native();
+  init_Developer();
+  init_settings();
+  init_common();
   console.log("Loading Strife....");
   Object.freeze = Object;
   Object.seal = Object;
@@ -4212,9 +4244,18 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"68fa3d8"}`,
+      `Strife: ${"6d3cc94"}`,
       e?.stack || e.toString()
-    ].join("\n"));
+    ].join("\n-\n"));
   });
+  window.alert(`Strife: ${"6d3cc94"}
+Build Number: ${ClientInfoManager.Build}`);
+  if (settings_default.startingPage == "Dev") {
+    NavigationNative.useNavigation().push("VendettaCustomPage", {
+      title: "Developer Settings",
+      render: Developer
+    });
+    settings_default.startingPage = "None";
+  }
 })();
 //# sourceURL=VendettaContinued
