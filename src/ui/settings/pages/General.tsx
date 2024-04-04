@@ -68,15 +68,12 @@ export default function General() {
                     </TableRowGroup>
                     <TableRowGroup title="Links">
                         <TableRow
-                            label="Discord Server (Feud)"
+                            label="Discord Server"
                             icon={<TableRowIcon source={getAssetIDByName("Discord")} />}
-                            onPress={() => url.openDeeplink(DISCORD_SERVER)}
-                            arrow
-                        />
-                        <TableRow
-                            label="Discord Server (Vendetta)"
-                            icon={<TableRowIcon source={getAssetIDByName("Discord")} />}
-                            onPress={() => url.openDeeplink(DISCORD_SERVER_VENDETTA)}
+                            onPress={() => {
+                                // url.openDeeplink(DISCORD_SERVER)
+                                showToast("404 Page Not Found",getAssetIDByName("ic_progress_wrench_24px"))
+                            }}
                             arrow
                         />
                         <TableRow

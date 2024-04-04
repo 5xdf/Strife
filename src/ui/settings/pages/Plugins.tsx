@@ -11,7 +11,7 @@ export default function Plugins() {
     return (
         <AddonPage<Plugin>
             items={plugins}
-            safeModeMessage="You are in Recovery Mode, so plugins cannot be loaded. Disable any misbehaving plugins, then return to Normal Mode from the General settings page."
+            safeModeMessage="You are currently in recovery mode! Disable any plugings that you think are misbehaving and disable recovery mode."
             card={PluginCard}
         />
     )
