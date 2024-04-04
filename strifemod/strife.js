@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "fa8be63";
+      versionHash = "e8befa2";
     }
   });
 
@@ -4299,24 +4299,26 @@
     logger_default.log("Strife has been injected into your discord app successfully!");
     if (settings_default.betaBranch == true) {
       showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
-      showSimpleActionSheet5({
-        key: "betaWarn",
-        header: {
-          title: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
-          onClose: function() {
-            return hideActionSheet5();
-          }
-        },
-        options: [
-          {
-            label: "OK",
-            isDestructive: true,
-            onPress: function() {
+      setTimeout(function() {
+        showSimpleActionSheet5({
+          key: "betaWarn",
+          header: {
+            title: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
+            onClose: function() {
               return hideActionSheet5();
             }
-          }
-        ]
-      });
+          },
+          options: [
+            {
+              label: "OK",
+              isDestructive: true,
+              onPress: function() {
+                return hideActionSheet5();
+              }
+            }
+          ]
+        });
+      }, 5e3);
     } else {
       showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
@@ -4367,12 +4369,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"fa8be63"}`,
+      `Strife: ${"e8befa2"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"fa8be63"}
-Most Recent Strife: ${"fa8be63"}
+  window.alert(`Strife: ${"e8befa2"}
+Most Recent Strife: ${"e8befa2"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued

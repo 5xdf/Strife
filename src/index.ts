@@ -56,16 +56,18 @@ export default async () => {
     logger.log("Strife has been injected into your discord app successfully!");
     if (settings.betaBranch == true) {
         showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
-        showSimpleActionSheet({
-            key: "betaWarn",
-            header: {
-                title: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
-                onClose: () => hideActionSheet(),
-            },
-            options: [
-                { label: "OK", isDestructive: true, onPress: () => hideActionSheet()}
-            ]
-        })
+        setTimeout(function(){
+            showSimpleActionSheet({
+                key: "betaWarn",
+                header: {
+                    title: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
+                    onClose: () => hideActionSheet(),
+                },
+                options: [
+                    { label: "OK", isDestructive: true, onPress: () => hideActionSheet()}
+                ]
+            })
+        },5000)
     } else {
         showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
