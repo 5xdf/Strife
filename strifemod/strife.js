@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "4ca8af7";
+      versionHash = "b73d4b3";
     }
   });
 
@@ -4299,6 +4299,15 @@
     logger_default.log("Strife has been injected into your discord app successfully!");
     if (settings_default.betaBranch == true) {
       showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
+      showSimpleActionSheet5({
+        key: "betaWarn",
+        header: {
+          title: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
+          onClose: function() {
+            return hideActionSheet5();
+          }
+        }
+      });
     } else {
       showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
@@ -4349,11 +4358,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"4ca8af7"}`,
+      `Strife: ${"b73d4b3"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"4ca8af7"}
+  window.alert(`Strife: ${"b73d4b3"}
+Most Recent Strife: ${"b73d4b3"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
