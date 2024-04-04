@@ -15,7 +15,7 @@ import settings from "@lib/settings";
 import { loaderConfig } from "@lib/settings";
 import { getAssetIDByName } from "@ui/assets";
 import { showToast } from "@ui/toasts";
-import { Asset } from "@types";
+import { Asset, ButtonColors } from "@types";
 import { assets } from "@metro/common";
 import { after } from "@lib/patcher";
 
@@ -23,6 +23,7 @@ import devpage from "@ui/settings/pages/Developer"
 import { findByProps } from "@metro/filters";
 import { Forms, Tabs, ErrorBoundary } from "@ui/components";
 import { BundleUpdaterManager } from "./lib/native";
+import { showConfirmationAlert } from "./ui/alerts";
 
 const { Stack, TableRow, TableRowIcon, TableSwitchRow, TableRowGroup, TextInput, Slider } = Tabs;
 const { hideActionSheet } = findByProps("openLazy", "hideActionSheet");
@@ -64,25 +65,18 @@ export default async () => {
         showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
         setTimeout(function(){
             const list = Object.values(assets.all);
-            const item = list[Math.floor(Math.random() * list.length)];
-            showSimpleActionSheet({
-                key: "betaWarn",
-                header: {
-                    title: "ALERT",
-                    subTitle: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
-                    onClose: () => hideActionSheet(),
-                },
-                options: [
-                    { label: "OK", isDestructive: true, onPress: () => hideActionSheet()},
-                    { label: "Return back to the Main Branch",onPress: ()=> {
-                        
-                        showToast(item.name, item.id);
-                        showToast("Returning back to Main", 200)
-                        settings.betaBranch = false
-                        loaderConfig.customLoadUrl.url = "https://raw.githubusercontent.com/5xdf/Strife/main/strifemod/strife.js"
-                        setTimeout(BundleUpdaterManager.reload(),1000)
-                    }}
-                ]
+            // const item = ;
+            showConfirmationAlert({
+                title:"ALERT!",
+                content:"You are currently on the BETA branch of Strife! This version may include app-breaking features.",
+                confirmText:"Go back to main",
+                cancelText:"Okay",
+                confirmColor: ButtonColors.RED,
+                onConfirm: () => {  showToast("Returning back to Main", getAssetIDByName("Check"))
+                                    settings.betaBranch = false
+                                    loaderConfig.customLoadUrl.url = "https://raw.githubusercontent.com/5xdf/Strife/main/strifemod/strife.js"
+                                    setTimeout(BundleUpdaterManager.reload(),1000)},
+                onCancel: () => showToast("Staying on BETA branch", getAssetIDByName("Check")),
             })
         },1000)
     } else {
@@ -97,4 +91,5 @@ export default async () => {
     //     })
     //     settings.startingPage = "None"
     // }
+    
 }

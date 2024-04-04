@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "77cc70c";
+      versionHash = "57da8ed";
     }
   });
 
@@ -4301,35 +4301,21 @@
       showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
       setTimeout(function() {
         const list = Object.values(assets.all);
-        const item = list[Math.floor(Math.random() * list.length)];
-        showSimpleActionSheet5({
-          key: "betaWarn",
-          header: {
-            title: "ALERT",
-            subTitle: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
-            onClose: function() {
-              return hideActionSheet5();
-            }
+        showConfirmationAlert({
+          title: "ALERT!",
+          content: "You are currently on the BETA branch of Strife! This version may include app-breaking features.",
+          confirmText: "Go back to main",
+          cancelText: "Okay",
+          confirmColor: ButtonColors.RED,
+          onConfirm: function() {
+            showToast("Returning back to Main", getAssetIDByName("Check"));
+            settings_default.betaBranch = false;
+            loaderConfig.customLoadUrl.url = "https://raw.githubusercontent.com/5xdf/Strife/main/strifemod/strife.js";
+            setTimeout(BundleUpdaterManager.reload(), 1e3);
           },
-          options: [
-            {
-              label: "OK",
-              isDestructive: true,
-              onPress: function() {
-                return hideActionSheet5();
-              }
-            },
-            {
-              label: "Return back to the Main Branch",
-              onPress: function() {
-                showToast(item.name, item.id);
-                showToast("Returning back to Main", 200);
-                settings_default.betaBranch = false;
-                loaderConfig.customLoadUrl.url = "https://raw.githubusercontent.com/5xdf/Strife/main/strifemod/strife.js";
-                setTimeout(BundleUpdaterManager.reload(), 1e3);
-              }
-            }
-          ]
+          onCancel: function() {
+            return showToast("Staying on BETA branch", getAssetIDByName("Check"));
+          }
         });
       }, 1e3);
     } else {
@@ -4357,10 +4343,12 @@
       init_settings();
       init_assets();
       init_toasts();
+      init_def_d();
       init_common();
       init_filters();
       init_components();
       init_native();
+      init_alerts();
       ({ Stack: Stack5, TableRow: TableRow5, TableRowIcon: TableRowIcon5, TableSwitchRow: TableSwitchRow5, TableRowGroup: TableRowGroup5, TextInput: TextInput2, Slider: Slider2 } = Tabs);
       ({ hideActionSheet: hideActionSheet5 } = findByProps("openLazy", "hideActionSheet"));
       ({ showSimpleActionSheet: showSimpleActionSheet5 } = findByProps("showSimpleActionSheet"));
@@ -4385,12 +4373,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"77cc70c"}`,
+      `Strife: ${"57da8ed"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"77cc70c"}
-Most Recent Strife: ${"77cc70c"}
+  window.alert(`Strife: ${"57da8ed"}
+Most Recent Strife: ${"57da8ed"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
