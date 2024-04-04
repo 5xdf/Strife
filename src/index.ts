@@ -61,7 +61,10 @@ export default async () => {
             header: {
                 title: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
                 onClose: () => hideActionSheet(),
-            }
+            },
+            options: [
+                { label: "OK", isDestructive: true, onPress: () => hideActionSheet()}
+            ]
         })
     } else {
         showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));

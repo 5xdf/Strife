@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "b73d4b3";
+      versionHash = "fa8be63";
     }
   });
 
@@ -4306,7 +4306,16 @@
           onClose: function() {
             return hideActionSheet5();
           }
-        }
+        },
+        options: [
+          {
+            label: "OK",
+            isDestructive: true,
+            onPress: function() {
+              return hideActionSheet5();
+            }
+          }
+        ]
       });
     } else {
       showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
@@ -4358,12 +4367,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"b73d4b3"}`,
+      `Strife: ${"fa8be63"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"b73d4b3"}
-Most Recent Strife: ${"b73d4b3"}
+  window.alert(`Strife: ${"fa8be63"}
+Most Recent Strife: ${"fa8be63"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
