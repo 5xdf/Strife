@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "905083d";
+      versionHash = "fd1f1c5";
     }
   });
 
@@ -4328,7 +4328,7 @@
             }
           ]
         });
-      }, 5e3);
+      }, 1e3);
     } else {
       showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
@@ -4381,12 +4381,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"905083d"}`,
+      `Strife: ${"fd1f1c5"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"905083d"}
-Most Recent Strife: ${"905083d"}
+  window.alert(`Strife: ${"fd1f1c5"}
+Most Recent Strife: ${"fd1f1c5"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued

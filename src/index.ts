@@ -76,7 +76,7 @@ export default async () => {
                     }}
                 ]
             })
-        },5000)
+        },1000)
     } else {
         showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
