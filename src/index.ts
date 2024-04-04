@@ -71,7 +71,7 @@ export default async () => {
                     { label: "Return back to the Main Branch",onPress: ()=> {
                         showToast("Returning back to Main", 200)
                         settings.betaBranch = false
-                        BundleUpdaterManager.reload()
+                        setTimeout(BundleUpdaterManager.reload(),1000)
                     }}
                 ]
             })
