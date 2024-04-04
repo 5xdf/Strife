@@ -71,6 +71,7 @@ export default async () => {
                     { label: "Return back to the Main Branch",onPress: ()=> {
                         showToast("Returning back to Main", 200)
                         settings.betaBranch = false
+                        loaderConfig.customLoadUrl.url = "https://raw.githubusercontent.com/5xdf/Strife/main/strifemod/strife.js"
                         setTimeout(BundleUpdaterManager.reload(),1000)
                     }}
                 ]
