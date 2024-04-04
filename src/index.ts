@@ -63,7 +63,7 @@ export default async () => {
                 key: "betaWarn",
                 header: {
                     title: "ALERT",
-                    description: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
+                    subTitle: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
                     onClose: () => hideActionSheet(),
                 },
                 options: [
