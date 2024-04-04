@@ -4317,7 +4317,7 @@
             return showToast("Staying on BETA branch", getAssetIDByName("Check"));
           }
         });
-      }, 1e3);
+      }, 1000);
     } else {
       showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
