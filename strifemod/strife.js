@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "30ff964c6c52115b9231581b03a377684ef6793b";
+      versionHash = "193315844049b0afccfac3876e908a097810b22d";
     }
   });
 
@@ -4317,7 +4317,7 @@
             return showToast("Staying on BETA branch", getAssetIDByName("Check"));
           }
         });
-      }, 1e3);
+      }, 500);
     } else {
       showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
@@ -4373,12 +4373,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"30ff964c6c52115b9231581b03a377684ef6793b"}`,
+      `Strife: ${"193315844049b0afccfac3876e908a097810b22d"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"30ff964c6c52115b9231581b03a377684ef6793b"}
-Most Recent Strife: ${"30ff964c6c52115b9231581b03a377684ef6793b"} 
+  window.alert(`Strife: ${"193315844049b0afccfac3876e908a097810b22d"}
+Most Recent Strife: ${"193315844049b0afccfac3876e908a097810b22d"} 
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued

@@ -78,7 +78,7 @@ export default async () => {
                                     setTimeout(BundleUpdaterManager.reload(),1000)},
                 onCancel: () => showToast("Staying on BETA branch", getAssetIDByName("Check")),
             })
-        },1000)
+        },500)
     } else {
         showToast("Strife Loaded", getAssetIDByName("toast_copy_link"));
     }
