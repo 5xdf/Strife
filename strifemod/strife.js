@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "e2f6331";
+      versionHash = "30ff964c6c52115b9231581b03a377684ef6793b";
     }
   });
 
@@ -4373,13 +4373,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"e2f6331"}`,
+      `Strife: ${"30ff964c6c52115b9231581b03a377684ef6793b"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"e2f6331"}
-Most Recent Strife: ${exec("git fetch; git rev-parse origin/beta").stdout.trim().substring(0, 7) || "custom"} 
+  window.alert(`Strife: ${"30ff964c6c52115b9231581b03a377684ef6793b"}
+Most Recent Strife: ${"30ff964c6c52115b9231581b03a377684ef6793b"} 
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
-

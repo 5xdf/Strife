@@ -12,9 +12,9 @@ import { title } from "process";
 var pagetitle;
 const tsconfig = JSON.parse(await fs.readFile("./tsconfig.json"));
 const aliases = Object.fromEntries(Object.entries(tsconfig.compilerOptions.paths).map(([alias, [target]]) => [alias, path.resolve(target)]));
-const commit = (await exec("git rev-parse HEAD")).stdout.trim().substring(0, 7) || "custom";
+const commit = (await exec("git rev-parse HEAD")).stdout.trim().substring(0, 100) || "custom";
 
-const mostrecent = (await exec("git fetch; git rev-parse origin/beta")).stdout.trim().substring(0, 7) || "custom";
+const mostrecent = (await exec("git fetch; git rev-parse origin/beta")).stdout.trim().substring(0, 100) || "custom";
 try {
     await build({
         entryPoints: ["./src/entry.ts"],
