@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "e8befa2";
+      versionHash = "ed50c14";
     }
   });
 
@@ -4303,7 +4303,8 @@
         showSimpleActionSheet5({
           key: "betaWarn",
           header: {
-            title: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
+            title: "ALERT",
+            description: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
             onClose: function() {
               return hideActionSheet5();
             }
@@ -4314,6 +4315,14 @@
               isDestructive: true,
               onPress: function() {
                 return hideActionSheet5();
+              }
+            },
+            {
+              label: "Return back to the Main Branch",
+              onPress: function() {
+                showToast("Returning back to Main", 200);
+                settings_default.betaBranch = false;
+                BundleUpdaterManager.reload();
               }
             }
           ]
@@ -4345,6 +4354,7 @@
       init_toasts();
       init_filters();
       init_components();
+      init_native();
       ({ Stack: Stack5, TableRow: TableRow5, TableRowIcon: TableRowIcon5, TableSwitchRow: TableSwitchRow5, TableRowGroup: TableRowGroup5, TextInput: TextInput2, Slider: Slider2 } = Tabs);
       ({ hideActionSheet: hideActionSheet5 } = findByProps("openLazy", "hideActionSheet"));
       ({ showSimpleActionSheet: showSimpleActionSheet5 } = findByProps("showSimpleActionSheet"));
@@ -4369,12 +4379,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"e8befa2"}`,
+      `Strife: ${"ed50c14"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"e8befa2"}
-Most Recent Strife: ${"e8befa2"}
+  window.alert(`Strife: ${"ed50c14"}
+Most Recent Strife: ${"ed50c14"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued

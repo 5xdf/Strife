@@ -12,11 +12,13 @@ import initFixes from "@lib/fixes";
 import logger from "@lib/logger";
 import windowObject from "@lib/windowObject";
 import settings from "@lib/settings";
+import { loaderConfig } from "@lib/settings";
 import { getAssetIDByName } from "@ui/assets";
 import { showToast } from "@ui/toasts";
 import devpage from "@ui/settings/pages/Developer"
 import { findByProps } from "@metro/filters";
 import { Forms, Tabs, ErrorBoundary } from "@ui/components";
+import { BundleUpdaterManager } from "./lib/native";
 
 const { Stack, TableRow, TableRowIcon, TableSwitchRow, TableRowGroup, TextInput, Slider } = Tabs;
 const { hideActionSheet } = findByProps("openLazy", "hideActionSheet");
@@ -60,11 +62,17 @@ export default async () => {
             showSimpleActionSheet({
                 key: "betaWarn",
                 header: {
-                    title: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
+                    title: "ALERT",
+                    description: "You are on the BETA branch of Strife. I, 5xdf, am not responsible for any leaks that happen. You chose to do this.",
                     onClose: () => hideActionSheet(),
                 },
                 options: [
-                    { label: "OK", isDestructive: true, onPress: () => hideActionSheet()}
+                    { label: "OK", isDestructive: true, onPress: () => hideActionSheet()},
+                    { label: "Return back to the Main Branch",onPress: ()=> {
+                        showToast("Returning back to Main", 200)
+                        settings.betaBranch = false
+                        BundleUpdaterManager.reload()
+                    }}
                 ]
             })
         },5000)
