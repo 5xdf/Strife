@@ -6,11 +6,15 @@ import { exec as _exec } from "child_process";
 import fs from "fs/promises";
 import path from "path";
 const exec = promisify(_exec);
+import axios from 'axios';
+import { title } from "process";
 
+var pagetitle;
 const tsconfig = JSON.parse(await fs.readFile("./tsconfig.json"));
 const aliases = Object.fromEntries(Object.entries(tsconfig.compilerOptions.paths).map(([alias, [target]]) => [alias, path.resolve(target)]));
 const commit = (await exec("git rev-parse HEAD")).stdout.trim().substring(0, 7) || "custom";
 
+const mostrecent = (await exec("git fetch; git rev-parse origin/beta")).stdout.trim().substring(0, 7) || "custom";
 try {
     await build({
         entryPoints: ["./src/entry.ts"],
@@ -44,7 +48,8 @@ try {
             alias(aliases),
         ],
         define: {
-            __vendettaVersion: `"${commit}"`,
+            __vendettaVersion:  `"${commit}"`,
+            __vendettaMostRecent:   `"${mostrecent}"`,
         },
         footer: {
             js: "//# sourceURL=VendettaContinued",

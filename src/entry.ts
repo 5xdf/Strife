@@ -3,6 +3,9 @@ import devpage from "@ui/settings/pages/Developer"
 import settings from "@lib/settings";
 import { ReactNative as RN, NavigationNative } from "@metro/common";
 // This logs in the native logging implementation, e.g. logcat
+
+// const commit = (await exec("git rev-parse HEAD")).stdout.trim().substring(0, 7) || "custom";
+
 console.log("Loading Strife....");
 
 // Make 'freeze' and 'seal' do nothing
@@ -26,5 +29,5 @@ import(".").then((m) => m.default()).catch((e) => {
         e?.stack || e.toString(),
     ].join("\n-\n"));
 });
-window.alert(`Strife: ${__vendettaVersion}\nMost Recent Strife: ${__vendettaVersion}\nBuild Number: ${ClientInfoManager.Build}`)
+window.alert(`Strife: ${__vendettaVersion}\nMost Recent Strife: ${__vendettaMostRecent} \nBuild Number: ${ClientInfoManager.Build}`)
 // const navigation = NavigationNative.useNavigation();
