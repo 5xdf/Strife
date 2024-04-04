@@ -4378,7 +4378,7 @@
     ].join("\n-\n"));
   });
   window.alert(`Strife: ${"e2f6331"}
-Most Recent Strife: ${exec("git fetch; git rev-parse origin/beta").stdout.trim().substring(0, 90) || "custom"} 
+Most Recent Strife: ${exec("git fetch; git rev-parse origin/beta").stdout.trim().substring(0, 7) || "custom"} 
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
