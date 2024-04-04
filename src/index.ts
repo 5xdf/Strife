@@ -77,6 +77,7 @@ export default async () => {
                                     loaderConfig.customLoadUrl.url = "https://raw.githubusercontent.com/5xdf/Strife/main/strifemod/strife.js"
                                     setTimeout(BundleUpdaterManager.reload(),1000)},
                 onCancel: () => showToast("Staying on BETA branch", getAssetIDByName("Check")),
+                isDismissable: true,
             })
         },500)
     } else {
