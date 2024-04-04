@@ -15,6 +15,10 @@ import settings from "@lib/settings";
 import { loaderConfig } from "@lib/settings";
 import { getAssetIDByName } from "@ui/assets";
 import { showToast } from "@ui/toasts";
+import { Asset } from "@types";
+import { assets } from "@metro/common";
+import { after } from "@lib/patcher";
+
 import devpage from "@ui/settings/pages/Developer"
 import { findByProps } from "@metro/filters";
 import { Forms, Tabs, ErrorBoundary } from "@ui/components";
@@ -59,6 +63,8 @@ export default async () => {
     if (settings.betaBranch == true) {
         showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
         setTimeout(function(){
+            const list = Object.values(assets.all);
+            const item = list[Math.floor(Math.random() * list.length)];
             showSimpleActionSheet({
                 key: "betaWarn",
                 header: {
@@ -69,6 +75,8 @@ export default async () => {
                 options: [
                     { label: "OK", isDestructive: true, onPress: () => hideActionSheet()},
                     { label: "Return back to the Main Branch",onPress: ()=> {
+                        
+                        showToast(item.name, item.id);
                         showToast("Returning back to Main", 200)
                         settings.betaBranch = false
                         loaderConfig.customLoadUrl.url = "https://raw.githubusercontent.com/5xdf/Strife/main/strifemod/strife.js"

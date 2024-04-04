@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "7788ad7";
+      versionHash = "77cc70c";
     }
   });
 
@@ -4300,6 +4300,8 @@
     if (settings_default.betaBranch == true) {
       showToast("Strife (BETA) Loaded", getAssetIDByName("toast_copy_link"));
       setTimeout(function() {
+        const list = Object.values(assets.all);
+        const item = list[Math.floor(Math.random() * list.length)];
         showSimpleActionSheet5({
           key: "betaWarn",
           header: {
@@ -4320,6 +4322,7 @@
             {
               label: "Return back to the Main Branch",
               onPress: function() {
+                showToast(item.name, item.id);
                 showToast("Returning back to Main", 200);
                 settings_default.betaBranch = false;
                 loaderConfig.customLoadUrl.url = "https://raw.githubusercontent.com/5xdf/Strife/main/strifemod/strife.js";
@@ -4354,6 +4357,7 @@
       init_settings();
       init_assets();
       init_toasts();
+      init_common();
       init_filters();
       init_components();
       init_native();
@@ -4381,12 +4385,12 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"7788ad7"}`,
+      `Strife: ${"77cc70c"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"7788ad7"}
-Most Recent Strife: ${"7788ad7"}
+  window.alert(`Strife: ${"77cc70c"}
+Most Recent Strife: ${"77cc70c"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued
