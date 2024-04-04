@@ -1386,7 +1386,7 @@
           resolveRNStyle: ReactNative.StyleSheet.flatten
         });
       };
-      versionHash = "7b26580";
+      versionHash = "b0fdc3a";
     }
   });
 
@@ -2867,7 +2867,7 @@
       }
     })), /* @__PURE__ */ React.createElement(TableRow2, {
       label: "Clear loader URL",
-      subLabel: "Doing this will reload discord and will return you back to normal.",
+      subLabel: "Clears the loader URL",
       onPress: function() {
         showSimpleActionSheet2({
           key: "unfinishedAction",
@@ -2896,7 +2896,7 @@
                 return showSimpleActionSheet2({
                   key: "noYouCannot",
                   header: {
-                    title: "No, you can't.",
+                    title: "Fine.",
                     icon: /* @__PURE__ */ React.createElement(TableRowIcon2, {
                       style: {
                         marginRight: 8
@@ -2909,9 +2909,10 @@
                   },
                   options: [
                     {
-                      label: "Dang it.",
+                      label: "Okay, DO IT THEN.",
                       onPress: function() {
-                        return hideActionSheet2();
+                        loaderConfig.customLoadUrl.url = "There, I cleared it. Happy now?";
+                        hideActionSheet2();
                       }
                     }
                   ]
@@ -4357,11 +4358,11 @@
     alert([
       "Failed to inject Strife!\n",
       `Build Number: ${ClientInfoManager.Build}`,
-      `Strife: ${"7b26580"}`,
+      `Strife: ${"b0fdc3a"}`,
       e?.stack || e.toString()
     ].join("\n-\n"));
   });
-  window.alert(`Strife: ${"7b26580"}
+  window.alert(`Strife: ${"b0fdc3a"}
 Build Number: ${ClientInfoManager.Build}`);
 })();
 //# sourceURL=VendettaContinued

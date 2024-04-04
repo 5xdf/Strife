@@ -98,7 +98,7 @@ export default function Developer() {
                         </RN.View>
                         <TableRow
                             label="Clear loader URL"
-                            subLabel="Doing this will reload discord and will return you back to normal."
+                            subLabel="Clears the loader URL"
                             onPress={()=> {
                                 showSimpleActionSheet({
                                     key: "unfinishedAction",
@@ -112,12 +112,12 @@ export default function Developer() {
                                         { label: "can i do it anyways?", onPress: () => showSimpleActionSheet({
                                             key: "noYouCannot",
                                             header: {
-                                                title: "No, you can't.",
+                                                title: "Fine.",
                                                 icon: <TableRowIcon style={{ marginRight: 8 }} source={getAssetIDByName("ic_lock")} />,
                                                 onClose: () => hideActionSheet(),
                                             },
                                             options: [
-                                                { label: "Dang it.", onPress: () => hideActionSheet()}
+                                                { label: "Okay, DO IT THEN.", onPress: () => {loaderConfig.customLoadUrl.url = "There, I cleared it. Happy now?"; hideActionSheet()}}
                                             ]
                                         })}
                                     ],
